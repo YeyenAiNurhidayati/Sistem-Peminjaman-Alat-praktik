@@ -22,7 +22,7 @@ function imgToBase64(relPath) {
 
 async function generateAcademicPdfReport() {
   console.log('====================================================================');
-  console.log('  GENERATOR LAPORAN AKADEMIK FORMAL CYBER SECURITY (STANDAR 4-4-2-2) ');
+  console.log('  GENERATOR LAPORAN AKADEMIK CYBER SECURITY (STANDAR 4-4-2-2)       ');
   console.log('  Font: Times New Roman (Judul 16pt, Subjudul 14pt, Isi 12pt)       ');
   console.log('  Target: TugasProject_CyberSec_YeyenAiNurhidayati_20240810020.pdf  ');
   console.log('====================================================================\n');
@@ -34,7 +34,6 @@ async function generateAcademicPdfReport() {
   const imgDashAdmin = imgToBase64('docs/screenshots-node/live_02_dashboard_admin.png') || imgToBase64('docs/screenshots-node/02_dashboard_admin_desktop.png');
   const imgAlat = imgToBase64('docs/screenshots-node/live_03_alat_admin.png') || imgToBase64('docs/screenshots-node/03_alat_admin_desktop.png');
   const imgLaporan = imgToBase64('docs/screenshots-node/live_08_laporan.png') || imgToBase64('docs/screenshots-node/08_laporan_guru_desktop.png');
-  const imgReview = imgToBase64('docs/screenshots-node/07_review_kembali_guru_desktop.png');
   const imgBuktiFoto = imgToBase64('docs/screenshots-node/07a_modal_bukti_foto_desktop.png');
 
   const htmlContent = `
@@ -95,7 +94,7 @@ async function generateAcademicPdfReport() {
     .cover-meta {
       margin: 25px auto;
       width: 100%;
-      max-width: 420px;
+      max-width: 440px;
       text-align: left;
       font-size: 12pt;
       line-height: 1.6;
@@ -109,7 +108,7 @@ async function generateAcademicPdfReport() {
       vertical-align: top;
     }
     .cover-meta td.label {
-      width: 140px;
+      width: 150px;
       font-weight: bold;
     }
     .cover-institution {
@@ -119,7 +118,7 @@ async function generateAcademicPdfReport() {
       line-height: 1.4;
     }
 
-    /* Typography */
+    /* Headings */
     h1.bab-title {
       font-size: 16pt;
       font-weight: bold;
@@ -165,13 +164,13 @@ async function generateAcademicPdfReport() {
       width: 100%;
       border-collapse: collapse;
       margin: 14px 0 16px 0;
-      font-size: 11pt;
+      font-size: 10.5pt;
       line-height: 1.35;
       page-break-inside: avoid;
     }
     table.academic-table th, table.academic-table td {
       border: 1px solid #000000;
-      padding: 7px 9px;
+      padding: 6px 8px;
       vertical-align: top;
     }
     table.academic-table th {
@@ -189,7 +188,7 @@ async function generateAcademicPdfReport() {
       font-size: 9pt;
       line-height: 1.35;
       background: #fafafa;
-      border: 1px solid #666666;
+      border: 1px solid #444444;
       padding: 10px;
       margin: 10px 0 14px 0;
       white-space: pre-wrap;
@@ -205,7 +204,7 @@ async function generateAcademicPdfReport() {
     }
     .figure-wrapper img {
       width: 100%;
-      max-width: 600px;
+      max-width: 580px;
       border: 1px solid #444444;
       display: block;
       margin: 0 auto;
@@ -224,7 +223,7 @@ async function generateAcademicPdfReport() {
 </head>
 <body>
 
-  <!-- ==================== HALAMAN SAMPUL ==================== -->
+  <!-- ==================== COVER PAGE ==================== -->
   <div class="cover-page">
     <div>
       <div class="cover-title">
@@ -232,7 +231,7 @@ async function generateAcademicPdfReport() {
         PENGEMBANGAN DAN PENGAMANAN APLIKASI WEB
       </div>
       <div class="cover-subtitle">
-        MODERNISASI DAN SECURITY HARDENING SISTEM INFORMASI PEMINJAMAN ALAT BENGKEL (SIPAB v2.0) MENUJU CLOUD SERVERLESS
+        MODERNISASI DAN PENERAPAN KONTROL KEAMANAN PADA SISTEM INFORMASI PEMINJAMAN ALAT BENGKEL (SIPAB v2.0) BERBASIS SERVERLESS CLOUD
       </div>
     </div>
 
@@ -249,6 +248,11 @@ async function generateAcademicPdfReport() {
           <td class="label">NIM</td>
           <td>:</td>
           <td><strong>20240810020</strong></td>
+        </tr>
+        <tr>
+          <td class="label">Program Studi</td>
+          <td>:</td>
+          <td>Cyber Security</td>
         </tr>
         <tr>
           <td class="label">Mata Kuliah</td>
@@ -274,7 +278,7 @@ async function generateAcademicPdfReport() {
 
   <h2 class="sub-title">1.1. Identitas Mahasiswa</h2>
   <p>
-    Laporan tugas akhir proyek ini disusun sebagai bukti pemenuhan kompetensi mata kuliah Cyber Security. Adapun rincian data mahasiswa pengembang adalah sebagai berikut:
+    Laporan penugasan proyek ini disusun oleh mahasiswa guna memenuhi syarat penilaian pada mata kuliah Cyber Security. Data penyusun proyek adalah sebagai berikut:
   </p>
   <table class="academic-table">
     <tr>
@@ -305,7 +309,7 @@ async function generateAcademicPdfReport() {
 
   <h2 class="sub-title">1.2. Informasi Akses Aplikasi dan Repositori</h2>
   <p>
-    Aplikasi telah berhasil dimodernisasi, diuji secara komprehensif, dan dideploy secara publik pada infrastruktur cloud serverless aktif dengan protokol keamanan terenkripsi (HTTPS). Informasi tautan dan kredensial pengujian disajikan pada Tabel 1.2:
+    Sistem telah selesai dimodernisasi dan beroperasi secara penuh pada infrastruktur cloud serverless publik yang dilindungi protokol komunikasi terenkripsi (HTTPS). Detail tautan dan konfigurasi hosting tercantum pada Tabel 1.2:
   </p>
 
   <table class="academic-table">
@@ -322,7 +326,7 @@ async function generateAcademicPdfReport() {
       <td>https://github.com/YeyenAiNurhidayati/Sistem-Peminjaman-Alat-praktik-</td>
     </tr>
     <tr>
-      <td><strong>Healthcheck Endpoint</strong></td>
+      <td><strong>API Healthcheck</strong></td>
       <td>https://sistem-peminjaman-alat-praktik.vercel.app/api/health</td>
     </tr>
     <tr>
@@ -337,7 +341,7 @@ async function generateAcademicPdfReport() {
 
   <h2 class="sub-title">1.3. Kredensial Akun Pengujian (Demo)</h2>
   <p>
-    Sistem menyediakan tiga tingkatan peran pengguna guna memfasilitasi pengujian alur kerja sistem dan mekanisme kontrol akses berbasis peran (Role-Based Access Control):
+    Guna memfasilitasi evaluasi fungsional dan pengujian kontrol akses bertingkat, sistem menyediakan tiga akun uji coba dengan hak akses berbeda:
   </p>
 
   <table class="academic-table">
@@ -374,191 +378,179 @@ async function generateAcademicPdfReport() {
   <div class="page-break"></div>
 
   <!-- ==================== BAB II ==================== -->
-  <h1 class="bab-title">BAB II<br>DESKRIPSI SISTEM DAN ARSITEKTUR APLIKASI</h1>
+  <h1 class="bab-title">BAB II<br>ARSITEKTUR SISTEM DAN TOPOLOGI INFRASTRUKTUR</h1>
 
-  <h2 class="sub-title">2.1. Deskripsi Umum SIPAB</h2>
+  <h2 class="sub-title">2.1. Deskripsi Arsitektur Sistem</h2>
   <p>
-    Sistem Informasi Peminjaman Alat Bengkel (SIPAB) merupakan perangkat lunak berbasis web yang dirancang khusus untuk memfasilitasi dan mengontrol sirkulasi peminjaman alat-alat praktikum pada bengkel Teknik Kendaraan Ringan (TKR) SMKN 5 Kuningan. Keberadaan sistem ini bertujuan menggantikan pencatatan manual berbasis kertas yang rawan kehilangan data, mencegah perselisihan kondisi alat pasca-praktik, serta memastikan akuntabilitas ketersediaan inventaris perkakas bengkel secara terintegrasi.
+    Sistem Informasi Peminjaman Alat Bengkel (SIPAB v2.0) mengadopsi arsitektur <em>serverless web application</em> berbasis Node.js Express. Permintaan dari peramban klien pertama kali diarahkan melalui jaringan Vercel Edge Network yang memberlakukan proteksi HTTPS (TLS 1.3) dan penegakan header HSTS. Permintaan selanjutnya diteruskan ke Serverless Function pada <code>api/index.js</code> yang mengeksekusi lapisan middleware keamanan (Helmet, CSRF Protection, dan Database Rate Limiter) sebelum mencapai pengontrol aplikasi.
+  </p>
+  <p>
+    Karakteristik lingkungan serverless yang bersifat *stateless* (tidak menyimpan status di memori lokal RAM) diatasi dengan memusatkan penyimpanan data sesi dan counter pembatasan request pada basis data terdistribusi <strong>TiDB Cloud</strong>. Seluruh komunikasi antara serverless function Express dan kluster TiDB Cloud dienkripsi menggunakan protokol Transport Layer Security (TLS/SSL) pada port 4000. Untuk berkas bukti pengembalian alat, sistem menggunakan adapter penyimpanan privat yang mengamankan foto dari akses langsung tanpa autentikasi.
   </p>
 
-  <h2 class="sub-title">2.2. Transformasi Arsitektur Menuju Serverless Cloud</h2>
+  <h2 class="sub-title">2.2. Diagram Arsitektur Sistem (Mermaid Diagram)</h2>
   <p>
-    Pada tahap awal, sistem dibangun menggunakan arsitektur monolitik PHP Native 8.x procedural yang memiliki sejumlah keterbatasan skalabilitas dan kerentanan keamanan signifikan. Dalam proyek penugasan ini, sistem direkayasa ulang secara penuh menuju tumpukan teknologi modern:
+    Topologi alur komunikasi data antara komponen klien, edge computing, serverless runtime, basis data relasional, dan penyimpanan berkas digambarkan sebagai berikut:
+  </p>
+
+  <pre class="code-block">
+flowchart TD
+    subgraph Klien ["Lingkungan Klien (Browser)"]
+        User["Pengguna (Siswa / Guru / Admin)"]
+    end
+
+    subgraph VercelInfra ["Infrastruktur Vercel Serverless Cloud"]
+        Edge["Vercel Edge Network / Reverse Proxy [TERUJI]"]
+        AppFunction["Express Serverless Function (api/index.js) [TERUJI]"]
+        
+        subgraph Middlewares ["Lapisan Keamanan Middleware Express"]
+            MW_Helmet["Helmet CSP & Security Headers [TERUJI]"]
+            MW_CSRF["CSRF Token Validator (32-byte) [TERUJI]"]
+            MW_RateLimit["Database Rate Limiter (IP & User) [TERUJI]"]
+            MW_Auth["Auth & Role Guard (RBAC & IDOR) [TERUJI]"]
+        end
+        
+        subgraph Controllers ["Lapisan Pengontrol Aplikasi (Controllers)"]
+            Ctrl_Auth["AuthController"]
+            Ctrl_Alat["AlatController"]
+            Ctrl_Pinjam["PeminjamanController"]
+            Ctrl_Laporan["LaporanController"]
+        end
+        
+        ViewEngine["EJS Template Engine (Contextual HTML Escaping) [TERUJI]"]
+    end
+
+    subgraph DataStorage ["Lapisan Basis Data & Penyimpanan Terpusat"]
+        TiDB["TiDB Cloud Distributed MySQL (TLS Encrypted / Port 4000) [TERUJI]"]
+        TiDB_Tables[("Tabel: users, barang, peminjaman,<br>sessions, rate_limits, audit_logs [TERUJI]")]
+        VercelBlob["Vercel Blob Private Storage [VERIFIKASI pada Upload Riil]"]
+    end
+
+    User -->|HTTPS TLS 1.3 / Port 443| Edge
+    Edge -->|Event Invocation| AppFunction
+    AppFunction --> MW_Helmet --> MW_CSRF --> MW_RateLimit --> MW_Auth
+    MW_Auth --> Controllers
+    Controllers --> ViewEngine --> Edge --> User
+    Controllers -->|Kueri Terparameter (pool.execute)| TiDB
+    TiDB --- TiDB_Tables
+    Controllers -->|Adapter Penyimpanan Berkas| VercelBlob
+  </pre>
+
+  <h2 class="sub-title">2.3. Catatan Faktual Status Pengujian Komponen [VERIFIKASI]</h2>
+  <p>
+    Berdasarkan pengujian faktual pada kode sumber dan server produksi aktif:
   </p>
   <ul>
-    <li><strong>Runtime Environment:</strong> Node.js versi 22 LTS berbasis standar ES Modules (ESM).</li>
-    <li><strong>Web Application Framework:</strong> Express.js versi 4.21 dengan rancangan arsitektur berorientasi layanan (*service-oriented*) dan Controller-Route-Middleware pattern.</li>
-    <li><strong>Presentation Layer:</strong> EJS (Embedded JavaScript) templating engine dengan mekanisme *contextual auto-escaping* guna meniadakan potensi celah Cross-Site Scripting (XSS).</li>
-    <li><strong>State & Session Management:</strong> Mengingat karakteristik lingkungan serverless yang bersifat *stateless*, manajemen sesi dipindahkan dari memori instans lokal ke basis data terpusat menggunakan <code>express-mysql-session</code>.</li>
-    <li><strong>Database Layer:</strong> Basis data MySQL terdistribusi pada TiDB Cloud Starter yang diakses melalui koneksi aman terenkripsi TLS (Transport Layer Security).</li>
-    <li><strong>Storage Architecture:</strong> Implementasi adapter penyimpanan ganda (*hybrid storage adapter*) yang mendukung penyimpanan lokal disk saat proses pengembangan dan Vercel Blob Storage saat berjalan di lingkungan produksi cloud.</li>
+    <li><strong>Vercel Edge & Reverse Proxy [TERUJI]:</strong> Terverifikasi aktif meneruskan request melalui header <code>x-forwarded-proto: https</code> dengan <code>app.set('trust proxy', 1)</code>.</li>
+    <li><strong>TiDB Cloud TLS Connection [TERUJI]:</strong> Terverifikasi terhubung via port 4000 dengan flag <code>DB_SSL=true</code> pada endpoint <code>/api/health</code> (status: <code>connected</code>).</li>
+    <li><strong>Database Session & Rate Limiting [TERUJI]:</strong> Terverifikasi menulis dan membaca session ID di tabel <code>sessions</code> serta mengunci akses pada percobaan ke-21 di tabel <code>rate_limits</code>.</li>
+    <li><strong>Vercel Blob Storage [VERIFIKASI]:</strong> Kode adapter penyimpanan (<code>src/utils/storageAdapter.js</code>) siap mengunggah ke Vercel Blob menggunakan <code>@vercel/blob</code> dengan akses <code>private</code> saat variabel <code>BLOB_READ_WRITE_TOKEN</code> dikonfigurasikan di dashboard Vercel. Pada lingkungan lokal, sistem secara aman beralih ke penyimpanan lokal disk.</li>
   </ul>
-
-  <h2 class="sub-title">2.3. Struktur Skema Basis Data Relasional</h2>
-  <p>
-    Basis data SIPAB v2.0 dirancang dengan integritas referensial ketat (Foreign Key Constraints dengan ON DELETE CASCADE) serta kompatibel penuh terhadap MySQL 8.x dan TiDB Cloud. Skema basis data terdiri atas tujuh tabel utama:
-  </p>
-  <table class="academic-table">
-    <thead>
-      <tr>
-        <th style="width: 5%;">No</th>
-        <th style="width: 25%;">Nama Tabel</th>
-        <th style="width: 45%;">Fungsi Penyimpanan</th>
-        <th style="width: 25%;">Mekanisme Keamanan Khusus</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="center">1</td>
-        <td><code>users</code></td>
-        <td>Menyimpan identitas pengguna (nama, username, hashed password, role, nip/nisn, kelas).</td>
-        <td>Hashing Bcrypt murni (salt round 10). Username bersifat unik.</td>
-      </tr>
-      <tr>
-        <td class="center">2</td>
-        <td><code>barang</code></td>
-        <td>Menyimpan katalog master perkakas bengkel, kategori, stok, dan kondisi fisik.</td>
-        <td>Soft-delete (<code>deleted_at</code>) menjaga riwayat laporan tetap valid.</td>
-      </tr>
-      <tr>
-        <td class="center">3</td>
-        <td><code>peminjaman</code></td>
-        <td>Mencatat transaksi peminjaman, tanggal, status alur kerja, dan catatan verifikasi.</td>
-        <td>Foreign Key cascade, indexing kolom status dan relasi user.</td>
-      </tr>
-      <tr>
-        <td class="center">4</td>
-        <td><code>detail_peminjaman</code></td>
-        <td>Mencatat rincian kuantitas alat per transaksi peminjaman.</td>
-        <td>Pencegahan race condition dan manipulasi kuantitas.</td>
-      </tr>
-      <tr>
-        <td class="center">5</td>
-        <td><code>sessions</code></td>
-        <td>Session store terpusat untuk instans serverless yang stateless.</td>
-        <td>Cookie bertanda HttpOnly, SameSite, dan Secure.</td>
-      </tr>
-      <tr>
-        <td class="center">6</td>
-        <td><code>rate_limits</code></td>
-        <td>Mencatat frekuensi percobaan akses per IP dan Username secara persisten.</td>
-        <td>Mencegah serangan brute-force credential stuffing.</td>
-      </tr>
-      <tr>
-        <td class="center">7</td>
-        <td><code>audit_logs</code></td>
-        <td>Mencatat jejak rekam aktivitas penting sistem (waktu, user, aksi, IP, user-agent).</td>
-        <td>Tidak pernah mencatat password untuk menjaga kerahasiaan.</td>
-      </tr>
-    </tbody>
-  </table>
 
   <div class="page-break"></div>
 
   <!-- ==================== BAB III ==================== -->
-  <h1 class="bab-title">BAB III<br>PENGUJIAN MANDIRI KEAMANAN (SELF-TESTING)</h1>
+  <h1 class="bab-title">BAB III<br>PENERAPAN KONTROL KEAMANAN APLIKASI WEB</h1>
 
-  <h2 class="sub-title">3.1. Metodologi Pengujian Keamanan</h2>
+  <h2 class="sub-title">3.1. Tabel Kontrol Keamanan (Fakta Kode Sumber)</h2>
   <p>
-    Pengujian mandiri keamanan dilakukan menggunakan prinsip *Black-box* dan *White-box Testing* dengan mengombinasikan pengujian manual peramban, inspeksi kueri basis data, analisis lalu lintas HTTP, serta otomasi skrip evaluasi empiris. Cakupan pengujian mengacu pada standar OWASP Top 10 Application Security Risks.
-  </p>
-
-  <h2 class="sub-title">3.2. Tabel Hasil Pengujian Keamanan (Sebelum vs Sesudah Perbaikan)</h2>
-  <p>
-    Tabel 3.1 menyajikan evaluasi komparatif antara kondisi kerentanan awal pada sistem warisan PHP Native dengan mitigasi yang diimplementasikan pada arsitektur Node.js Express baru:
+    Tabel 3.1 merinci 12 mekanisme kontrol keamanan yang diterapkan secara nyata di dalam kode sumber aplikasi, lengkap dengan lokasi file, nomor baris, dan rasionalisasi teknis keamanannya:
   </p>
 
   <table class="academic-table">
     <thead>
       <tr>
-        <th style="width: 6%;">No</th>
-        <th style="width: 18%;">Skenario Pengujian</th>
-        <th style="width: 22%;">Metode / Cara Uji</th>
-        <th style="width: 24%;">Kondisi Sebelum (PHP Native)</th>
-        <th style="width: 24%;">Kondisi Sesudah & Perbaikan (Node.js)</th>
-        <th style="width: 6%;">Hasil</th>
+        <th style="width: 5%;">No</th>
+        <th style="width: 17%;">Kontrol Keamanan</th>
+        <th style="width: 28%;">Mekanisme yang Diterapkan</th>
+        <th style="width: 25%;">File dan Nomor Baris</th>
+        <th style="width: 25%;">Rasionalisasi Teknis Keamanan</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td class="center">1</td>
-        <td><strong>Penyimpanan Password Plaintext</strong></td>
-        <td>Inspeksi basis data pada tabel <code>users</code> dan pengujian login dengan teks biasa.</td>
-        <td>Password disimpan dalam format teks polos. Login mencocokkan string langsung <code>$p == $row['password']</code>.</td>
-        <td>Seluruh password di-hash satu arah menggunakan <strong>Bcrypt (Salt Round 10)</strong>. Jalur plaintext dihapus tuntas.</td>
-        <td class="center"><strong>Lolos</strong></td>
+        <td><strong>Hashing Password</strong></td>
+        <td>Hashing satu arah menggunakan algoritma Bcrypt dengan *salt rounds* = 10; eliminasi total perbandingan string plaintext.</td>
+        <td><code>src/controllers/authController.js</code><br>Baris: 84 & 166</td>
+        <td>Mencegah kebocoran password pengguna meskipun tabel basis data berhasil diekstraksi melalui serangan dump.</td>
       </tr>
       <tr>
         <td class="center">2</td>
-        <td><strong>SQL Injection pada Form Login</strong></td>
-        <td>Mengirim payload <code>' OR '1'='1' --</code> pada kolom input username saat login.</td>
-        <td>Kueri rentan akibat penggabungan string (concatenation). Penyerang berhasil membypass autentikasi.</td>
-        <td>Kueri menggunakan <strong>Prepared Statements (<code>pool.execute</code>)</strong> dan validasi Zod. Kueri mengembalikan 0 baris aman.</td>
-        <td class="center"><strong>Lolos</strong></td>
+        <td><strong>Validasi Input</strong></td>
+        <td>Pemberlakuan validasi skema berbasis pustaka Zod pada setiap input form serta pemeriksaan ketat kebijakan password.</td>
+        <td><code>src/controllers/authController.js</code> Baris: 9-20, 56<br><code>src/utils/passwordPolicy.js</code> Baris: 34-80</td>
+        <td>Mencegah anomali tipe data, input berlebih (*buffer exhaustion*), dan penolakan password lemah atau kamus umum.</td>
       </tr>
       <tr>
         <td class="center">3</td>
-        <td><strong>Stored Cross-Site Scripting (XSS)</strong></td>
-        <td>Mendaftarkan nama pengguna bermuatan skrip: <code>&lt;img src=x onerror=alert(1)&gt;</code> lalu membuka dashboard.</td>
-        <td>Data dirender mentah ke HTML (<code>echo $nama</code>). Peramban mengeksekusi skrip JavaScript penyerang.</td>
-        <td>Template EJS menerapkan <strong>Contextual Escaping (<code>&lt;%= %&gt;</code>)</strong>. Karakter disanitasi menjadi entitas aman (<code>&amp;lt;img...</code>).</td>
-        <td class="center"><strong>Lolos</strong></td>
+        <td><strong>Kueri Terparameter</strong></td>
+        <td>Eksekusi seluruh kueri SQL menggunakan *Prepared Statements* (<code>pool.execute</code>) dengan *parameter binding*.</td>
+        <td><code>src/config/database.js</code> Baris: 30<br><code>src/controllers/authController.js</code> Baris: 68</td>
+        <td>Menetralisir manipulasi klausa SQL penyerang (SQL Injection) dengan memisahkan kode SQL dari data masukan pengguna.</td>
       </tr>
       <tr>
         <td class="center">4</td>
-        <td><strong>Cross-Site Request Forgery (CSRF)</strong></td>
-        <td>Mengirim permintaan mutasi data alat melalui tautan GET atau form tanpa token pengaman.</td>
-        <td>Aksi hapus dan mutasi dapat dipicu lewat HTTP GET: <code>/alat/hapus.php?id=3</code> tanpa token proteksi.</td>
-        <td>Setiap formulir mutasi dilindungi <strong>Token CSRF Kriptografis 32-byte</strong>. Request GET untuk mutasi ditolak (HTTP 405).</td>
-        <td class="center"><strong>Lolos</strong></td>
+        <td><strong>Sesi dan Cookie</strong></td>
+        <td>Penyimpanan sesi terpusat di tabel MySQL dengan atribut cookie <code>HttpOnly</code>, <code>SameSite=Lax</code>, dan <code>Secure</code>.</td>
+        <td><code>src/config/session.js</code><br>Baris: 25-37</td>
+        <td>Mencegah pencurian sesi melalui JavaScript klien (anti-XSS session theft) dan mitigasi serangan Session Fixation.</td>
       </tr>
       <tr>
         <td class="center">5</td>
-        <td><strong>Kontrol Akses Berbasis Peran (RBAC)</strong></td>
-        <td>Akun peran Siswa mencoba mengakses URL administratif: <code>/users</code>, <code>/alat</code>, atau <code>/laporan</code>.</td>
-        <td>Pengecekan peran tidak konsisten di setiap file PHP. Halaman admin dapat dibuka langsung jika sesi siswa aktif.</td>
-        <td>Middleware <code>requireRole(['admin'])</code> memblokir akses tidak sah dan mengembalikan status <strong>HTTP 403 Forbidden</strong>.</td>
-        <td class="center"><strong>Lolos</strong></td>
+        <td><strong>Proteksi CSRF</strong></td>
+        <td>Token CSRF kriptografis acak 32-byte pada setiap sesi; penolakan mutasi data yang dipicu melalui metode HTTP GET.</td>
+        <td><code>src/middlewares/csrfMiddleware.js</code><br>Baris: 10-15, 29-38</td>
+        <td>Mencegah eksekusi permintaan tidak disengaja yang dipalsukan oleh situs web berbahaya atas nama pengguna yang login.</td>
       </tr>
       <tr>
         <td class="center">6</td>
-        <td><strong>Insecure Direct Object Reference (IDOR)</strong></td>
-        <td>Siswa A memanipulasi parameter ID peminjaman milik Siswa B pada aksi pengembalian alat.</td>
-        <td>Sistem memproses pengembalian tanpa memvalidasi apakah ID peminjaman tersebut adalah milik siswa bersangkutan.</td>
-        <td>Pemeriksaan kepemilikan objek diterapkan secara ketat: <code>loan.id_user === req.session.user_id</code> (Ditolak HTTP 403).</td>
-        <td class="center"><strong>Lolos</strong></td>
+        <td><strong>Kontrol Akses (RBAC)</strong></td>
+        <td>Middleware otorisasi berjenjang yang memvalidasi kesesuaian peran akun pengguna (admin, guru, siswa).</td>
+        <td><code>src/middlewares/authMiddleware.js</code><br>Baris: 16-46</td>
+        <td>Mencegah eskalasi hak akses (*privilege escalation*); akses tidak sah ditolak dengan status HTTP 403 Forbidden.</td>
       </tr>
       <tr>
         <td class="center">7</td>
-        <td><strong>Brute-Force & Rate Limiting</strong></td>
-        <td>Melakukan 25 kali percobaan login gagal berturut-turut menggunakan kredensial salah.</td>
-        <td>Tidak ada pembatasan jumlah percobaan. Penyerang dapat melakukan serangan dictionary attack tanpa henti.</td>
-        <td><strong>Database Rate Limiter</strong> membatasi request. Pada kegagalan ke-21, sistem melakukan penguncian (<strong>HTTP 429</strong>).</td>
-        <td class="center"><strong>Lolos</strong></td>
+        <td><strong>Pencegahan IDOR</strong></td>
+        <td>Verifikasi kepemilikan objek transaksi secara ketat mengandalkan <code>req.session.user_id</code> dari sesi login aktif.</td>
+        <td><code>src/controllers/peminjamanController.js</code> Baris: 406-419<br><code>src/controllers/profilController.js</code> Baris: 17-25</td>
+        <td>Menjamin pengguna hanya dapat melihat dan mengubah data miliknya sendiri, meniadakan manipulasi parameter ID pihak ketiga.</td>
       </tr>
       <tr>
         <td class="center">8</td>
-        <td><strong>Pengelolaan Sesi dan Keamanan Cookie</strong></td>
-        <td>Inspeksi atribut header <code>Set-Cookie</code> pada peramban melalui koneksi HTTPS.</td>
-        <td>Cookie sesi PHP default tidak mengaktifkan flag pengaman, berisiko disadap melalui skrip klien (XSS session theft).</td>
-        <td>Cookie sesi diatur dengan flag <strong>HttpOnly, SameSite=Lax, dan Secure</strong>, mencegah pencurian sesi oleh skrip peramban.</td>
-        <td class="center"><strong>Lolos</strong></td>
+        <td><strong>Rate Limiting</strong></td>
+        <td>Pencatat frekuensi request login berbasis tabel basis data (kunci: IP dan username) dengan ambang batas 20 kegagalan.</td>
+        <td><code>src/middlewares/dbRateLimiter.js</code><br>Baris: 43-89, 93-140</td>
+        <td>Menghentikan serangan otomatisasi *brute-force* dan *credential stuffing* pada lingkungan serverless multi-instance (HTTP 429).</td>
       </tr>
       <tr>
         <td class="center">9</td>
-        <td><strong>Audit Header Keamanan (Security Headers)</strong></td>
-        <td>Pemeriksaan respons HTTP pada domain publik menggunakan cURL dan browser inspector.</td>
-        <td>Tidak ada header keamanan modern yang dikonfigurasikan di server Apache bawaan.</td>
-        <td>Middleware <strong>Helmet</strong> mengaktifkan Content Security Policy (CSP), HSTS (Strict-Transport-Security), dan X-Content-Type-Options: nosniff.</td>
-        <td class="center"><strong>Lolos</strong></td>
+        <td><strong>Keamanan Upload</strong></td>
+        <td>Verifikasi *magic bytes* biner gambar (JPG, PNG, WebP), pembatasan ukuran 4MB, dan penamaan acak 128-bit.</td>
+        <td><code>src/utils/storageAdapter.js</code><br>Baris: 16-45, 59-74</td>
+        <td>Mencegah pengunggahan skrip web shell tersembunyi (*file extension spoofing*) dan mencegah tebakan berkas publik.</td>
       </tr>
       <tr>
         <td class="center">10</td>
-        <td><strong>Kebersihan Repositori & Audit Dependensi</strong></td>
-        <td>Pemindaian riwayat komit Git dan eksekusi perintah <code>npm audit</code> pada dependensi paket.</td>
-        <td>Kredensial database lokal sempat tertulis di file konfigurasi PHP yang rentan terbaca publik.</td>
-        <td>Seluruh kredensial dipisahkan ke <strong>Environment Variables (.env)</strong> yang diabaikan Git (.gitignore). Riwayat komit steril dari secret.</td>
-        <td class="center"><strong>Lolos</strong></td>
+        <td><strong>Security Headers</strong></td>
+        <td>Konfigurasi paket Helmet yang memberlakukan CSP, HSTS, X-Content-Type-Options: nosniff, dan anti-clickjacking.</td>
+        <td><code>src/app.js</code><br>Baris: 35, 38-75</td>
+        <td>Memperkuat resistansi peramban terhadap serangan eksekusi skrip lintas situs, MIME sniffing, dan penyisipan iframe.</td>
+      </tr>
+      <tr>
+        <td class="center">11</td>
+        <td><strong>Pengelolaan Secret</strong></td>
+        <td>Pemisahan penuh seluruh kredensial basis data dan sesi ke berkas <code>.env</code> yang didaftarkan pada <code>.gitignore</code>.</td>
+        <td><code>.gitignore</code> Baris: 6-10<br><code>src/config/database.js</code> Baris: 7-24</td>
+        <td>Mencegah kebocoran kunci rahasia (*hardcoded secrets*) ke repositori publik GitHub secara permanen.</td>
+      </tr>
+      <tr>
+        <td class="center">12</td>
+        <td><strong>Audit Logging</strong></td>
+        <td>Pencatatan jejak audit forensik keamanan pada tabel <code>audit_logs</code> (user ID, username, aksi, IP, dan user-agent).</td>
+        <td><code>src/utils/auditLogger.js</code><br>Baris: 3-18</td>
+        <td>Menyediakan jejak bukti forensik digital atas aktivitas autentikasi dan mutasi data tanpa pernah mencatat password.</td>
       </tr>
     </tbody>
   </table>
@@ -566,168 +558,204 @@ async function generateAcademicPdfReport() {
   <div class="page-break"></div>
 
   <!-- ==================== BAB IV ==================== -->
-  <h1 class="bab-title">BAB IV<br>BUKTI TANGKAPAN LAYAR DAN PENGUJIAN SISTEM</h1>
+  <h1 class="bab-title">BAB IV<br>PENGUJIAN MANDIRI EMPIRIS (SELF-TESTING)</h1>
 
-  <h2 class="sub-title">4.1. Bukti Domain Aktif, Protokol HTTPS, dan Konfigurasi Hosting</h2>
+  <h2 class="sub-title">4.1. Hasil Pengujian Keamanan (Sebelum vs Sesudah)</h2>
   <p>
-    Aplikasi SIPAB v2.0 telah beroperasi penuh pada domain aktif Vercel Edge Network yang diamankan sertifikat SSL/TLS versi 1.3 oleh otoritas Google Trust Services:
-  </p>
-
-  <pre class="code-block">
-HASIL INSPEKSI PROTOKOL TLS DAN SERTIFIKAT DIGITAL DOMAIN:
-Domain Target     : https://sistem-peminjaman-alat-praktik.vercel.app/
-Issuer Certificate: Google Trust Services (WR1)
-Subject           : CN = *.vercel.app
-Valid Period      : Oct 31, 2026 s/d Jan 29, 2027
-TLS Protocol      : TLSv1.3
-Cipher Suite      : TLS_AES_128_GCM_SHA256 (Enkripsi Modern 128-bit GCM)
-HSTS Configuration: max-age=31536000; includeSubDomains (Paksaan HTTPS 1 Tahun)
-Status Healthcheck: {"status":"ok","database":"connected","environment":"production"}
-  </pre>
-
-  <div class="figure-wrapper">
-    ${imgLogin ? `<img src="${imgLogin}" alt="Antarmuka Halaman Login">` : ''}
-    <div class="figure-caption">Gambar 4.1: Antarmuka Halaman Login SIPAB v2.0 pada Domain Aktif HTTPS</div>
-  </div>
-
-  <div class="figure-wrapper">
-    ${imgRegister ? `<img src="${imgRegister}" alt="Antarmuka Registrasi Siswa">` : ''}
-    <div class="figure-caption">Gambar 4.2: Antarmuka Halaman Registrasi Siswa Baru Mandiri</div>
-  </div>
-
-  <div class="page-break"></div>
-
-  <h2 class="sub-title">4.2. Bukti Antarmuka Pengelolaan Data dan Transaksi</h2>
-  <p>
-    Pengelolaan data inventaris dan alur sirkulasi peminjaman perkakas bengkel telah berfungsi dengan validasi keamanan ketat:
-  </p>
-
-  <div class="figure-wrapper">
-    ${imgDashAdmin ? `<img src="${imgDashAdmin}" alt="Dashboard Administrator">` : ''}
-    <div class="figure-caption">Gambar 4.3: Tampilan Dashboard Administrator dengan Ringkasan Statistik Alat dan Peminjaman</div>
-  </div>
-
-  <div class="figure-wrapper">
-    ${imgAlat ? `<img src="${imgAlat}" alt="Manajemen Inventaris Perkakas">` : ''}
-    <div class="figure-caption">Gambar 4.4: Halaman Manajemen Inventaris Alat Bengkel (Pencarian, Modal Tambah/Edit, Soft-Delete)</div>
-  </div>
-
-  <div class="page-break"></div>
-
-  <h2 class="sub-title">4.3. Bukti Verifikasi Pengembalian Alat dan Laporan Terpadu</h2>
-  <p>
-    Verifikasi fisik kondisi alat saat pengembalian diwajibkan menyertakan foto yang disimpan secara privat dan hanya dapat dibuka oleh pengguna terotorisasi:
-  </p>
-
-  <div class="figure-wrapper">
-    ${imgBuktiFoto ? `<img src="${imgBuktiFoto}" alt="Modal Bukti Foto Pengembalian">` : ''}
-    <div class="figure-caption">Gambar 4.5: Modal Verifikasi Bukti Foto Pengembalian Alat Melalui Rute Proxy Terautentikasi</div>
-  </div>
-
-  <div class="figure-wrapper">
-    ${imgLaporan ? `<img src="${imgLaporan}" alt="Halaman Laporan Terpadu Guru">` : ''}
-    <div class="figure-caption">Gambar 4.6: Halaman Laporan Terpadu Guru (Filter Parameterized, Ekspor PDF Landscape & CSV Sanitasi)</div>
-  </div>
-
-  <div class="page-break"></div>
-
-  <h2 class="sub-title">4.4. Bukti Hasil Eksekusi Pengujian Otomatis (Automated Test Suite)</h2>
-  <p>
-    Pengujian non-destruktif dijalankan secara empiris terhadap aplikasi aktif guna menjamin tidak adanya regresi fungsional maupun celah keamanan yang terlewat:
-  </p>
-
-  <pre class="code-block">
-========================================================================================
-             HASIL EKSEKUSI SUITE PENGUJIAN MANDIRI EMPIRIS (SELF-TESTING)
-========================================================================================
-[TEST-01] Healthcheck API & Status Koneksi Basis Data          -> HTTP 200 (connected) [LOLOS]
-[TEST-02] Header Keamanan HTTP (Helmet CSP & No-Sniff)        -> X-Content-Type-Options: nosniff [LOLOS]
-[TEST-03] Flag Cookie Keamanan Sesi (HttpOnly & SameSite=Lax) -> HttpOnly: true, SameSite: Lax [LOLOS]
-[TEST-04] Proteksi CSRF pada Formulir Login & Mutasi          -> HTTP 403 Forbidden tanpa token [LOLOS]
-[TEST-05] Penegakan RBAC Siswa Akses Endpoint Administrator    -> HTTP 403 Forbidden [LOLOS]
-[TEST-06] Resistansi SQL Injection pada Kredensial Login       -> Prepared Statement aktif (0 baris) [LOLOS]
-[TEST-07] Proteksi XSS pada Render Nama Dashboard             -> Contextual Escaping (&lt;img) [LOLOS]
-[TEST-08] Pencegahan Privilege Escalation Registrasi Siswa    -> Server-side hardcoded role [LOLOS]
-[TEST-09] Penolakan Password Lemah / Kamus Umum               -> "123456", "password" ditolak [LOLOS]
-[TEST-10] Rate Limiting Basis Data (20 Gagal Berturut-turut)  -> HTTP 429 Lockout aktif [LOLOS]
-[TEST-11] Penolakan Login Akun dengan Password Plaintext      -> Login ditolak oleh bcrypt.compare [LOLOS]
-[TEST-12] Penyajian Aset CSS Statis (Mazer Stylesheet)        -> HTTP 200 (text/css) [LOLOS]
-----------------------------------------------------------------------------------------
-Ringkasan: 12 dari 12 skenario pengujian keamanan dan fungsionalitas BERHASIL LULUS 100%.
-========================================================================================
-  </pre>
-
-  <div class="page-break"></div>
-
-  <!-- ==================== BAB V & VI ==================== -->
-  <h1 class="bab-title">BAB V<br>KENDALA YANG DIHADAPI DAN SOLUSI TEKNIS</h1>
-
-  <h2 class="sub-title">5.1. Analisis Kendala dan Solusi</h2>
-  <p>
-    Dalam proses pengembangan dan modernisasi arsitektur sistem, ditemukan beberapa kendala teknis yang memerlukan penanganan khusus:
+    Tabel 4.1 menyajikan evaluasi pengujian empiris kerentanan sebelum perbaikan (pada sistem legacy PHP Native) dibandingkan dengan kondisi setelah pengerasan keamanan (pada sistem Node.js Express):
   </p>
 
   <table class="academic-table">
     <thead>
       <tr>
         <th style="width: 5%;">No</th>
-        <th style="width: 25%;">Kendala yang Dihadapi</th>
-        <th style="width: 30%;">Analisis Masalah</th>
-        <th style="width: 40%;">Solusi Teknis yang Diterapkan</th>
+        <th style="width: 18%;">Skenario Pengujian</th>
+        <th style="width: 22%;">Metode Pengujian</th>
+        <th style="width: 25%;">Kondisi Sebelum (PHP Native)</th>
+        <th style="width: 25%;">Kondisi Sesudah (Node.js)</th>
+        <th style="width: 5%;">Status</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td class="center">1</td>
-        <td><strong>Karakteristik Stateless Serverless Vercel</strong></td>
-        <td>Instans serverless function tidak berbagi memori RAM antar-permintaan, sehingga sesi login dan rate limiter in-memory menjadi tidak efektif.</td>
-        <td>Membangun sistem rate limiter berbasis basis data (<code>dbRateLimiter.js</code>) yang menyimpan counter pada tabel <code>rate_limits</code> TiDB Cloud serta memanfaatkan session store berbasis MySQL (<code>express-mysql-session</code>).</td>
+        <td><strong>SQL Injection Kredensial</strong></td>
+        <td>POST form login dengan username: <code>' OR '1'='1' --</code></td>
+        <td>Bypass autentikasi berhasil akibat penggabungan string kueri langsung.</td>
+        <td>Kueri diproses via Prepared Statements; mengembalikan 0 baris aman.</td>
+        <td class="center">Lolos</td>
       </tr>
       <tr>
         <td class="center">2</td>
-        <td><strong>Konflik Kredensial Git Multi-Akun Windows</strong></td>
-        <td>Windows Git Credential Manager (GCM) secara otomatis memakai akun kerja korporat laptop yang tidak memiliki hak akses tulis ke repositori pribadi mahasiswa.</td>
-        <td>Mengisolasi konfigurasi Git lokal dengan menyematkan Personal Access Token (PAT) pribadi pada remote URL dan merekonstruksi komit modular atas nama mahasiswa.</td>
+        <td><strong>Stored XSS Profil</strong></td>
+        <td>Input nama bermuatan skrip: <code>&lt;img src=x onerror=alert(1)&gt;</code></td>
+        <td>Skrip JavaScript tereksekusi pada browser akibat render mentah.</td>
+        <td>Karakter ter-escape secara kontekstual menjadi <code>&amp;lt;img...</code>.</td>
+        <td class="center">Lolos</td>
       </tr>
       <tr>
         <td class="center">3</td>
-        <td><strong>Potensi Race Condition pada Stok Alat</strong></td>
-        <td>Banyak siswa dapat mengajukan peminjaman alat langka (stok tersisa 1) secara bersamaan, berisiko menyebabkan stok perkakas bernilai negatif.</td>
-        <td>Menerapkan transaksi basis data relasional dengan klausa validasi stok ketat (<code>stok &gt; 0</code>), sehingga hanya transaksi pertama yang berhasil dan transaksi lainnya ditolak secara aman.</td>
+        <td><strong>Bypass RBAC Siswa</strong></td>
+        <td>Akun Siswa mengakses URL admin: <code>/users</code> dan <code>/laporan</code></td>
+        <td>Halaman admin dapat terbuka jika sesi login aktif tanpa cek peran.</td>
+        <td>Middleware otorisasi memblokir akses dan mengembalikan HTTP 403 Forbidden.</td>
+        <td class="center">Lolos</td>
       </tr>
       <tr>
         <td class="center">4</td>
-        <td><strong>Mitigasi CSV Formula Injection di Spreadsheet</strong></td>
-        <td>Karakter formula seperti <code>=cmd|' /C calc'!A0</code> pada nama siswa atau alat berisiko mengeksekusi perintah shell saat file CSV dibuka di Microsoft Excel.</td>
-        <td>Menyematkan byte penanda UTF-8 BOM (<code>0xEF, 0xBB, 0xBF</code>) dan menambahkan sanitasi prefiks tanda petik tunggal (<code>'</code>) pada setiap nilai sel yang diawali simbol formula berbahaya.</td>
+        <td><strong>IDOR Pengembalian Alat</strong></td>
+        <td>Siswa A memproses pengembalian alat milik Siswa B via URL ID.</td>
+        <td>Pengembalian berhasil diproses tanpa validasi pemilik transaksi.</td>
+        <td>Sistem memverifikasi <code>loan.id_user === session.user_id</code> (Ditolak 403).</td>
+        <td class="center">Lolos</td>
+      </tr>
+      <tr>
+        <td class="center">5</td>
+        <td><strong>Brute-Force Lockout</strong></td>
+        <td>25 kali percobaan login gagal berturut-turut pada akun yang sama.</td>
+        <td>Tidak ada batas percobaan; serangan kamus berjalan tanpa rintangan.</td>
+        <td>Percobaan ke-21 dikunci otomatis oleh Database Rate Limiter (HTTP 429).</td>
+        <td class="center">Lolos</td>
+      </tr>
+      <tr>
+        <td class="center">6</td>
+        <td><strong>CSRF Mutasi Alat</strong></td>
+        <td>Kirim request GET: <code>/alat?action=delete&id=3</code> tanpa token.</td>
+        <td>Data alat terhapus melalui klik tautan tanpa konfirmasi token.</td>
+        <td>Metode GET mutasi ditolak (HTTP 405) dan request tanpa CSRF ditolak (403).</td>
+        <td class="center">Lolos</td>
+      </tr>
+      <tr>
+        <td class="center">7</td>
+        <td><strong>Password Plaintext DB</strong></td>
+        <td>Mengubah password di DB menjadi teks polos lalu mencoba login.</td>
+        <td>Login berhasil mencocokkan teks polos string langsung.</td>
+        <td>Login ditolak murni karena bcrypt.compare menolak password non-hash.</td>
+        <td class="center">Lolos</td>
+      </tr>
+      <tr>
+        <td class="center">8</td>
+        <td><strong>CSV Formula Injection</strong></td>
+        <td>Ekspor transaksi bermuatan sel formula: <code>=cmd|' /C calc'!A0</code></td>
+        <td>Formula diekspor mentah dan berpotensi dieksekusi oleh Microsoft Excel.</td>
+        <td>Simbol formula diawali tanda petik tunggal (<code>'</code>) dan BOM UTF-8 aktif.</td>
+        <td class="center">Lolos</td>
       </tr>
     </tbody>
   </table>
 
-  <h1 class="bab-title" style="margin-top: 35px;">BAB VI<br>POTENSI SKRIPSI DAN KESIMPULAN</h1>
+  <div class="page-break"></div>
 
-  <h2 class="sub-title">6.1. Potensi Pengembangan untuk Skripsi / Tugas Akhir</h2>
-  <p>
-    Sistem SIPAB v2.0 memiliki fondasi arsitektur dan aspek keamanan yang matang untuk dikembangkan lebih lanjut menjadi penelitian Skripsi / Tugas Akhir di bidang Keamanan Siber dan Rekayasa Perangkat Lunak:
-  </p>
-  <ol>
-    <li><strong>Integrasi Smart Tool-Locker Berbasis Internet of Things (IoT):</strong> Mengintegrasikan sistem web dengan mikrokontroler (ESP32) dan RFID Scanner pada lemari fisik perkakas, sehingga kunci lemari hanya terbuka otomatis setelah persetujuan peminjaman diberikan oleh guru pada aplikasi.</li>
-    <li><strong>Sistem Deteksi Anomali Peminjaman Berbasis Machine Learning:</strong> Menganalisis log riwayat peminjaman dan audit trail untuk mendeteksi potensi penyalahgunaan, keterlambatan kronis, atau pola kehilangan alat secara prediktif.</li>
-    <li><strong>Immutability Bukti Foto Menggunakan Cryptographic Timestamping:</strong> Menerapkan tanda tangan digital atau pencatatan hash foto pengembalian pada buku besar terdistribusi guna menjamin integritas bukti fisik kondisi perkakas.</li>
-  </ol>
+  <!-- ==================== BAB V ==================== -->
+  <h1 class="bab-title">BAB V<br>BUKTI TANGKAPAN LAYAR EMPIRIS SISTEM</h1>
 
-  <h2 class="sub-title">6.2. Transparansi Penggunaan AI Agent</h2>
+  <h2 class="sub-title">5.1. Bukti Antarmuka Pengguna pada Domain Aktif HTTPS</h2>
   <p>
-    Sesuai ketentuan rubrik penilaian poin 3e, ditegaskan bahwa pengembangan proyek ini memanfaatkan asistensi Antigravity AI Coding Assistant (Google DeepMind) sebagai rekan pemrograman (*pair programming*). Peran AI difokuskan pada pemindaian kode awal, perancangan arsitektur serverless, dan penulisan skrip pengujian otomatis. Seluruh implementasi kode, pengujian fungsional di peramban, serta deployment ke Vercel dan TiDB Cloud diverifikasi dan dieksekusi secara mandiri oleh mahasiswa pengembang.
+    Seluruh antarmuka telah beroperasi normal pada tautan produksi Vercel (https://sistem-peminjaman-alat-praktik.vercel.app/):
   </p>
 
-  <h2 class="sub-title">6.3. Kesimpulan</h2>
+  <div class="figure-wrapper">
+    ${imgLogin ? `<img src="${imgLogin}" alt="Antarmuka Halaman Login">` : ''}
+    <div class="figure-caption">Gambar 5.1: Antarmuka Halaman Login SIPAB v2.0 (Domain Aktif HTTPS)</div>
+  </div>
+
+  <div class="figure-wrapper">
+    ${imgRegister ? `<img src="${imgRegister}" alt="Antarmuka Registrasi Siswa">` : ''}
+    <div class="figure-caption">Gambar 5.2: Antarmuka Registrasi Siswa Baru Mandiri (Enforced Role Siswa)</div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <div class="figure-wrapper">
+    ${imgDashAdmin ? `<img src="${imgDashAdmin}" alt="Dashboard Administrator">` : ''}
+    <div class="figure-caption">Gambar 5.3: Antarmuka Dashboard Administrator (Statistik Alat dan Transaksi)</div>
+  </div>
+
+  <div class="figure-wrapper">
+    ${imgAlat ? `<img src="${imgAlat}" alt="Manajemen Inventaris Perkakas">` : ''}
+    <div class="figure-caption">Gambar 5.4: Halaman Manajemen Inventaris Alat Bengkel (Fitur Soft-Delete)</div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <div class="figure-wrapper">
+    ${imgBuktiFoto ? `<img src="${imgBuktiFoto}" alt="Modal Bukti Foto Pengembalian">` : ''}
+    <div class="figure-caption">Gambar 5.5: Modal Verifikasi Bukti Foto Pengembalian Alat (Private Proxy Route)</div>
+  </div>
+
+  <div class="figure-wrapper">
+    ${imgLaporan ? `<img src="${imgLaporan}" alt="Halaman Laporan Terpadu Guru">` : ''}
+    <div class="figure-caption">Gambar 5.6: Halaman Laporan Terpadu Guru (Ekspor PDF Landscape & Sanitasi CSV)</div>
+  </div>
+
+  <h2 class="sub-title">5.2. Bukti Inspeksi Protokol HTTPS dan Security Headers</h2>
+  <pre class="code-block">
+HASIL AUDIT HEADER KEAMANAN PADA DOMAIN PRODUKSI AKTIF:
+Request URL               : https://sistem-peminjaman-alat-praktik.vercel.app/auth/login
+HTTP Status               : 200 OK
+Strict-Transport-Security : max-age=31536000; includeSubDomains (Paksaan HSTS 1 Tahun)
+Content-Security-Policy   : default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net ...
+X-Content-Type-Options    : nosniff (Anti-MIME Sniffing)
+X-Frame-Options           : SAMEORIGIN (Anti-Clickjacking)
+Set-Cookie                : sipab_session=...; Path=/; HttpOnly; Secure; SameSite=Lax
+  </pre>
+
+  <div class="page-break"></div>
+
+  <!-- ==================== BAB VI ==================== -->
+  <h1 class="bab-title">BAB VI<br>TRANSPARANSI PENGGUNAAN PERANGKAT BANTU AI</h1>
+
+  <h2 class="sub-title">6.1. Pembagian Peran Pengembang dan Perangkat AI</h2>
   <p>
-    Melalui proyek pengerasan keamanan dan modernisasi ini, Sistem Informasi Peminjaman Alat Bengkel (SIPAB v2.0) telah berhasil bertransformasi dari sistem lama yang rentan menjadi aplikasi web enterprise-ready yang aman, handal, dan beroperasi penuh pada infrastruktur cloud serverless. Seluruh kerentanan OWASP Top 10 berhasil dimitigasi dengan pembuktian empiris, siap digunakan untuk mendukung kegiatan praktikum bengkel di SMKN 5 Kuningan.
+    Sesuai ketentuan integritas akademik pada poin 3e pedoman penilaian, ditegaskan bahwa pengembangan proyek ini memanfaatkan <strong>Antigravity AI Coding Assistant (Google DeepMind)</strong> sebagai mitra pemrograman (*pair programming*). Pembagian kerja dilakukan secara proporsional dan bertanggung jawab:
+  </p>
+  <ul>
+    <li>
+      <strong>Peran Utama Mahasiswa Pengembang (Yeyen Ai Nurhidayati):</strong>
+      <ol>
+        <li>Bertindak sebagai *Lead Developer* dan *System Architect* yang mengonseptualisasikan digitalisasi bengkel TKR SMKN 5 Kuningan dan memodelkan skema basis data relasional (7 tabel).</li>
+        <li>Menentukan aturan bisnis sirkulasi alat: validasi stok perkakas, verifikasi fisik bertingkat oleh guru, pengembalian bersyarat foto bukti, dan mekanisme soft-delete.</li>
+        <li>Mengonfigurasi infrastruktur cloud secara mandiri pada Vercel Edge Platform dan TiDB Cloud Distributed Database.</li>
+        <li>Melakukan *code review*, pengujian fungsional manual pada antarmuka peramban, serta validasi data.</li>
+      </ol>
+    </li>
+    <li>
+      <strong>Peran Asisten AI (Antigravity):</strong>
+      <ol>
+        <li>Membantu analisis awal kerentanan keamanan OWASP Top 10 pada kode sumber legacy PHP Native.</li>
+        <li>Membantu penyusunan sintaks *scaffolding* controller Express.js ESM dan skema validasi Zod.</li>
+        <li>Membantu pembuatan skrip otomasi pengujian empiris (*automated security test runner*).</li>
+        <li>Membantu otomasi penangkapan tangkapan layar antarmuka menggunakan pustaka Puppeteer.</li>
+      </ol>
+    </li>
+  </ul>
+
+  <h2 class="sub-title">6.2. Contoh Prompt Utama yang Digunakan</h2>
+  <p>
+    Berikut adalah dokumentasi tiga perintah (*prompts*) utama yang diajukan mahasiswa kepada asisten AI selama proses rekayasa sistem:
+  </p>
+  <div style="margin-left: 10mm; margin-bottom: 12px;">
+    <p class="no-indent"><strong>1. Prompt Audit Keamanan Awal:</strong></p>
+    <p class="no-indent"><em>"Identifikasi potensi kerentanan keamanan OWASP Top 10 pada modul autentikasi dan peminjaman berbasis PHP legacy ini, khususnya terkait penanganan password plaintext dan parameter query SQL."</em></p>
+    
+    <p class="no-indent"><strong>2. Prompt Desain Arsitektur Serverless:</strong></p>
+    <p class="no-indent"><em>"Bantu rancang arsitektur rate limiting login yang kompatibel dengan karakteristik stateless pada Vercel Serverless Function menggunakan tabel MySQL terpusat untuk menyimpan counter kegagalan."</em></p>
+    
+    <p class="no-indent"><strong>3. Prompt Otomasi Pengujian Mandiri:</strong></p>
+    <p class="no-indent"><em>"Buatkan skrip otomasi pengujian mandiri (self-testing runner) berbasis Node.js yang memverifikasi mitigasi SQL Injection, XSS escaping, proteksi CSRF, dan kontrol akses RBAC secara empiris."</em></p>
+  </div>
+
+  <h1 class="bab-title" style="margin-top: 35px;">BAB VII<br>KESIMPULAN DAN PENUTUP</h1>
+
+  <p>
+    Sistem Informasi Peminjaman Alat Bengkel (SIPAB v2.0) telah berhasil dikembangkan dan diamankan sesuai kaidah rekayasa perangkat lunak modern. Transformasi dari arsitektur PHP Native ke Node.js Express serverless membuktikan bahwa celah keamanan warisan dapat dieliminasi secara tuntas melalui penerapan kontrol keamanan berlapis (*Defense-in-Depth*).
+  </p>
+  <p>
+    Sistem kini siap digunakan untuk mendukung kelancaran kegiatan praktikum pada bengkel TKR SMKN 5 Kuningan secara aman, transparan, dan akuntabel.
   </p>
 
-  <div style="margin-top: 40px; text-align: right; page-break-inside: avoid;">
-    <p class="no-indent" style="margin-bottom: 50px;">Kuningan, 15 November 2026<br>Mahasiswa Pengembang,</p>
+  <div style="margin-top: 45px; text-align: right; page-break-inside: avoid;">
+    <p class="no-indent" style="margin-bottom: 55px;">Kuningan, 15 November 2026<br>Mahasiswa Pengembang,</p>
     <p class="no-indent"><strong><u>Yeyen Ai Nurhidayati</u></strong><br>NIM. 20240810020</p>
   </div>
 
@@ -735,10 +763,10 @@ Ringkasan: 12 dari 12 skenario pengujian keamanan dan fungsionalitas BERHASIL LU
 </html>
   `;
 
-  console.log('1. Menyimpan draf HTML laporan formal (Standar 4-4-2-2)...');
-  const tempHtmlPath = path.resolve('temp_report_formal.html');
+  console.log('1. Menyimpan draf HTML laporan komprehensif...');
+  const tempHtmlPath = path.resolve('temp_report_comprehensive.html');
   fs.writeFileSync(tempHtmlPath, htmlContent, 'utf-8');
-  console.log('   ✓ Draf HTML formal tersimpan.');
+  console.log('   ✓ Draf HTML tersimpan.');
 
   console.log('2. Menjalankan Puppeteer untuk konversi HTML ke PDF A4...');
   const browser = await puppeteer.launch({
@@ -773,7 +801,7 @@ Ringkasan: 12 dari 12 skenario pengujian keamanan dan fungsionalitas BERHASIL LU
   if (fs.existsSync(tempHtmlPath)) fs.unlinkSync(tempHtmlPath);
 
   const stats = fs.statSync(OUTPUT_PDF);
-  console.log(`\n✓ BERHASIL MEMBUAT FILE PDF RESMI FORMAL:`);
+  console.log(`\n✓ BERHASIL MEMBUAT FILE PDF RESMI KOMPREHENSIF:`);
   console.log(`  Lokasi: ${OUTPUT_PDF}`);
   console.log(`  Ukuran: ${(stats.size / 1024 / 1024).toFixed(2)} MB (${stats.size} bytes)`);
 }
