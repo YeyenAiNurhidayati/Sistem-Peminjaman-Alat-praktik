@@ -21,9 +21,9 @@ Aplikasi web Sistem Informasi Peminjaman Alat Bengkel (SIPAB v2.0) dikembangkan 
 ### Kredensial Akun Pengujian (Demo)
 | Peran (Role) | Username | Password | Deskripsi Wewenang |
 | :--- | :--- | :--- | :--- |
-| Administrator | `admin` | `password` | Akses penuh inventaris alat, manajemen pengguna, audit log, dan laporan. |
-| Guru Praktikum | `guru` | `password` | Verifikasi fisik alat, persetujuan pengembalian, dan ekspor laporan. |
-| Siswa | `siswa` | `password` | Peminjaman alat, unggah foto bukti pengembalian, dan pengelolaan profil. |
+| Administrator | `admin` | `SuperBengkel#2026!` | Akses penuh inventaris alat, manajemen pengguna, audit log, dan laporan. |
+| Guru Praktikum | `guru` | `PengawasPraktik#2026!` | Verifikasi fisik alat, persetujuan pengembalian, dan ekspor laporan. |
+| Siswa | `siswa` | `TeknikOtomotif#2026!` | Peminjaman alat, unggah foto bukti pengembalian, dan pengelolaan profil. |
 
 ---
 
@@ -143,22 +143,23 @@ Proyek ini dilengkapi skrip pengujian keamanan otomatis untuk memverifikasi kean
 
 ## Transparansi Penggunaan Perangkat Bantu AI
 
-Pengembangan proyek modernisasi dan pengerasan keamanan Sistem Informasi Peminjaman Alat Bengkel (SIPAB v2.0) dilakukan dengan memanfaatkan perangkat bantu kecerdasan buatan, yaitu **Antigravity AI Coding Assistant (Google DeepMind)**, dengan pembagian peran yang terukur dan bertanggung jawab:
+Sesuai ketentuan integritas akademik, pengembangan proyek modernisasi dan pengerasan keamanan Sistem Informasi Peminjaman Alat Bengkel (SIPAB v2.0) ini memanfaatkan dua perangkat bantu kecerdasan buatan, yaitu **Claude (Anthropic)** dan **Antigravity AI Coding Assistant (Google DeepMind)**, dengan pembagian peran faktual dan bertanggung jawab:
 
-### Pembagian Peran dan Tanggung Jawab
-* **Mahasiswa Pengembang (Yeyen Ai Nurhidayati)**:
-  * Bertindak sebagai *Lead Developer* dan *System Architect* yang merancang arsitektur sistem, aturan bisnis peminjaman bengkel TKR, serta pemodelan skema basis data relasional (7 tabel).
-  * Melakukan konfigurasi infrastruktur cloud secara langsung pada platform Vercel Edge dan TiDB Cloud.
-  * Melakukan penelaahan kode (*code review*), pengujian fungsional manual pada peramban, serta validasi integritas data.
-* **Peran AI Coding Assistant**:
-  * Berfungsi sebagai mitra pemrograman (*pair programming partner*) untuk membantu pemindaian awal kerentanan keamanan pada kode legacy PHP (OWASP Top 10).
-  * Membantu penyusunan kerangka kerja (*scaffolding*) controller Express.js ESM dan skema validasi Zod.
-  * Membantu perancangan skrip pengujian mandiri otomatis (*automated security test runner*).
+### Lingkup Pekerjaan Faktual dan Pembagian Peran
+* **Peran Utama Perangkat Bantu AI**:
+  * **Claude (Anthropic)**: Digunakan pada tahap inisiasi untuk menyusun strategi refactoring arsitektur, merumuskan prompt instruksi bertingkat per modul, dan menelaah keselarasan hasil implementasi dengan rubrik penugasan.
+  * **Antigravity AI Coding Assistant (Google DeepMind)**: Bertindak sebagai *autonomous coding agent* yang menulis ulang basis kode monolitik procedural PHP Native menjadi modular Node.js Express ESM, mengimplementasikan middleware keamanan (Bcrypt, Zod, CSRF, Database Rate Limiter, Helmet CSP, Anti-IDOR), membuat suite otomasi pengujian empiris (Puppeteer runner & concurrency tester), serta menyusun draf dokumentasi teknis.
+* **Peran dan Verifikasi Faktual Mahasiswa (Yeyen Ai Nurhidayati)**:
+  * Menentukan aturan bisnis sirkulasi bengkel TKR SMKN 5 Kuningan: alur pengajuan peminjaman, verifikasi fisik bertingkat oleh guru, pengembalian bersyarat foto bukti, dan mekanisme soft-delete.
+  * Menyusun dan mengarahkan prompt instruksi secara modular per tahap implementasi.
+  * Melakukan *code review* dan pemeriksaan baris kode mandiri pada berkas kunci (`src/controllers/authController.js` untuk bcrypt & dummy hash, `src/controllers/peminjamanController.js` untuk anti-IDOR, `src/middlewares/csrfMiddleware.js` untuk token 32-byte, dan `src/config/session.js` untuk atribut cookie).
+  * Menjalankan pengujian fungsional dan pengujian keamanan langsung di lingkungan peramban Google Chrome dan terminal lokal XAMPP (termasuk verifikasi respon kueri SQL, penolakan karakter injeksi, inspeksi tab Application Cookies, dan eksekusi curl).
+  * Menemukan dan memperbaiki temuan kritis secara mandiri: mengeliminasi celah *user enumeration* pada pesan login gagal, mencatat keterbatasan CSP inline, mengamankan rute foto bukti `/peminjaman/bukti/:filename` dengan proteksi autentikasi wajib, serta memverifikasi ketiadaan kerentanan pada `npm audit`.
 
-### Contoh Prompt Utama yang Digunakan
-1. **Analisis Kerentanan Awal**:
-   > *"Identifikasi potensi kerentanan keamanan OWASP Top 10 pada modul autentikasi dan peminjaman berbasis PHP legacy ini, khususnya terkait penanganan password dan parameter query SQL."*
-2. **Perancangan Mekanisme Rate Limiter Serverless**:
-   > *"Bantu rancang arsitektur rate limiting login yang kompatibel dengan karakteristik stateless pada Vercel Serverless Function menggunakan tabel MySQL terpusat untuk menyimpan counter kegagalan."*
-3. **Penyusunan Skrip Pengujian Mandiri Otomatis**:
-   > *"Buatkan skrip otomasi pengujian mandiri (self-testing runner) berbasis Node.js yang memverifikasi mitigasi SQL Injection, XSS escaping, proteksi CSRF, dan kontrol akses RBAC secara empiris."*
+### Tiga Contoh Prompt Asli yang Digunakan
+1. **Prompt Refactor & Migrasi Arsitektur Serverless**:
+   > *"Lakukan refactoring menyeluruh aplikasi web peminjaman alat bengkel PHP native ini ke Node.js Express ESM dengan arsitektur serverless yang siap dideploy ke Vercel dan TiDB Cloud. Pertahankan alur bisnis peminjaman dan tampilan antarmuka Mazer, tetapi hilangkan seluruh kode prosedural PHP dan amankan koneksi basis data."*
+2. **Prompt Hardening Keamanan & Anti-IDOR**:
+   > *"Terapkan security hardening berlapis sesuai standar OWASP: ganti seluruh password dengan hash Bcrypt salt 10, buat validasi input dengan Zod, buat proteksi CSRF 32-byte untuk seluruh mutasi data, terapkan database rate limiting di tabel MySQL untuk mencegah brute-force login, dan pastikan route pengembalian alat serta profil terlindungi dari IDOR dengan mengecek session user_id."*
+3. **Prompt Otomasi Pengujian Empiris & Bukti Sebelum-Sesudah**:
+   > *"Buatkan test suite otomatis menggunakan Node.js dan Puppeteer untuk memverifikasi seluruh skenario pengujian mandiri: buktikan kerentanan legacy pada PHP di XAMPP (SQL injection fatal error, bypass access control api/alat.php, XSS unescaped render), dan buktikan keampuhan mitigasi pada Node.js (Prepared statements, HTML escaping, 403 CSRF/IDOR, 429 lockout, cookie flags). Ambil tangkapan layar asli dari hasil eksekusi tools tersebut."*
