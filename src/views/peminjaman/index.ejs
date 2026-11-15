@@ -1,0 +1,377 @@
+<%- include('../layout/header') %>
+<%- include('../layout/sidebar') %>
+
+<div id="main">
+    <header class="mb-3">
+        <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+        </a>
+    </header>
+
+    <div class="page-heading">
+        <h3>Data Peminjaman</h3>
+        <p class="text-muted">Manajemen peminjaman alat bengkel</p>
+    </div>
+
+    <div class="page-content">
+        <div class="card shadow">
+            <div class="card-header">
+                <h5 class="mb-0">List Peminjaman</h5>
+                <div class="d-flex gap-2">
+                    <% if (role === 'siswa') { %>
+                        <button type="button" class="btn btn-primary" onclick="openModalPinjam()">
+                            <i class="bi bi-plus-circle"></i> Ajukan Peminjaman
+                        </button>
+                    <% } %>
+                    <% if (role === 'admin' || role === 'guru') { %>
+                        <a href="/laporan" class="btn btn-danger">
+                            <i class="bi bi-file-pdf"></i> Cetak Laporan
+                        </a>
+                    <% } %>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-hover" id="table1">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Peminjam</th>
+                            <th>Barang</th>
+                            <th>Tanggal Pinjam</th>
+                            <th>Status</th>
+                            <th class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (peminjaman && peminjaman.length > 0) { %>
+                            <% peminjaman.forEach((row, index) => { %>
+                                <tr>
+                                    <td><%= index + 1 %></td>
+                                    <td><%= row.nama_peminjam %></td>
+                                    <td><%= row.nama_barang %></td>
+                                    <td><%= new Date(row.tgl_pinjam).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) %></td>
+                                    <td>
+                                        <% 
+                                            let badgeClass = 'secondary';
+                                            let icon = 'clock';
+                                            let label = row.status;
+                                            if (row.status === 'pending') { badgeClass = 'warning'; icon = 'hourglass-split'; label = 'Pending'; }
+                                            else if (row.status === 'disetujui') { badgeClass = 'primary'; icon = 'check-circle'; label = 'Disetujui'; }
+                                            else if (row.status === 'menunggu_pengembalian') { badgeClass = 'info'; icon = 'eye'; label = 'Menunggu Review'; }
+                                            else if (row.status === 'kembali') { badgeClass = 'success'; icon = 'check2-all'; label = 'Kembali'; }
+                                            else if (row.status === 'ditolak') { badgeClass = 'danger'; icon = 'x-circle'; label = 'Ditolak'; }
+                                        %>
+                                        <span class="badge bg-<%= badgeClass %>">
+                                            <i class="bi bi-<%= icon %>"></i> <%= label %>
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <% if (role === 'guru' && row.status === 'pending') { %>
+                                            <button class="btn btn-success btn-sm" onclick="accPinjam(<%= row.id %>, '<%= row.nama_peminjam.replace(/'/g, "\\'") %>')">
+                                                <i class="bi bi-check-lg"></i> Setuju
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" onclick="tolakPinjam(<%= row.id %>, '<%= row.nama_peminjam.replace(/'/g, "\\'") %>')">
+                                                <i class="bi bi-x-lg"></i> Tolak
+                                            </button>
+                                        <% } %>
+
+                                        <% if (role === 'admin' && row.status === 'pending') { %>
+                                            <button class="btn btn-success btn-sm" onclick="accPinjam(<%= row.id %>, '<%= row.nama_peminjam.replace(/'/g, "\\'") %>')">
+                                                <i class="bi bi-check-lg"></i> Setuju
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" onclick="tolakPinjam(<%= row.id %>, '<%= row.nama_peminjam.replace(/'/g, "\\'") %>')">
+                                                <i class="bi bi-x-lg"></i> Tolak
+                                            </button>
+                                        <% } %>
+
+                                        <% if (role === 'siswa' && row.status === 'disetujui') { %>
+                                            <button class="btn btn-info btn-sm" onclick="kembaliPinjam(<%= row.id %>, '<%= row.nama_barang.replace(/'/g, "\\'") %>')">
+                                                <i class="bi bi-arrow-return-left"></i> Ajukan Kembali
+                                            </button>
+                                        <% } %>
+
+                                        <% if (role === 'siswa' && row.status === 'menunggu_pengembalian') { %>
+                                            <span class="badge bg-info">Menunggu Review Guru</span>
+                                        <% } %>
+
+                                        <% if (row.status === 'kembali') { %>
+                                            <span class="text-success"><i class="bi bi-check2-circle"></i> Selesai</span>
+                                        <% } %>
+
+                                        <% if (row.status === 'ditolak') { %>
+                                            <span class="text-danger" title="<%= row.catatan_penolakan || 'Ditolak' %>">
+                                                <i class="bi bi-x-circle"></i> Ditolak
+                                            </span>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-4">Belum ada data peminjaman</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ajukan Peminjaman -->
+    <div class="modal fade" id="modalPinjam" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajukan Peminjaman</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="formPinjam">
+                    <input type="hidden" name="_csrf" id="csrfToken" value="<%= csrfToken %>">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nama Peminjam <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="nama_peminjam" id="namaPeminjam" value="<%= default_nama %>" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Pilih Barang <span class="text-danger">*</span></label>
+                            <input type="hidden" name="id_barang" id="selectedBarangId" required>
+                            <div class="row g-3" id="barangGrid" style="max-height: 400px; overflow-y: auto;">
+                                <% if (barang && barang.length > 0) { %>
+                                    <% barang.forEach(b => { %>
+                                        <div class="col-md-6 col-lg-4">
+                                            <div class="card barang-card h-100" data-id="<%= b.id %>" style="cursor: pointer; border: 2px solid #e9ecef; transition: all 0.3s ease;">
+                                                <div class="card-body text-center">
+                                                    <% if (b.foto) { %>
+                                                        <img src="/assets/images/barang/<%= b.foto %>" alt="<%= b.nama_barang %>" class="img-fluid mb-2" style="max-height: 120px; object-fit: cover; border-radius: 8px;" onerror="this.onerror=null; this.src='/assets/compiled/jpg/origami.jpg';">
+                                                    <% } else { %>
+                                                        <div class="bg-light d-flex align-items-center justify-content-center mb-2" style="height: 120px; border-radius: 8px;">
+                                                            <i class="bi bi-image text-muted" style="font-size: 2rem;"></i>
+                                                        </div>
+                                                    <% } %>
+                                                    <h6 class="card-title mb-1"><%= b.nama_barang %></h6>
+                                                    <p class="card-text text-muted small mb-2">Stok: <%= b.stok %> | Kondisi: <%= b.kondisi %></p>
+                                                    <div class="selected-indicator" style="display: none;">
+                                                        <i class="bi bi-check-circle-fill text-success"></i> Dipilih
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% }) %>
+                                <% } else { %>
+                                    <div class="col-12 text-center text-muted py-3">Tidak ada barang yang tersedia untuk dipinjam saat ini.</div>
+                                <% } %>
+                            </div>
+                            <div id="barangError" class="text-danger mt-2" style="display: none;">Silakan pilih barang terlebih dahulu.</div>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle"></i> Setelah mengajukan, peminjaman akan menunggu persetujuan Guru.
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle"></i> Batal
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="btnPinjam">
+                            <i class="bi bi-send"></i> Ajukan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../layout/footer') %>
+</div>
+
+<script>
+let modalPinjam;
+document.addEventListener('DOMContentLoaded', () => {
+    const modalEl = document.getElementById('modalPinjam');
+    if (modalEl) {
+        modalPinjam = new bootstrap.Modal(modalEl);
+    }
+});
+
+function openModalPinjam() {
+    document.getElementById('formPinjam').reset();
+    document.getElementById('namaPeminjam').value = '<%= default_nama.replace(/'/g, "\\'") %>';
+    document.querySelectorAll('.barang-card').forEach(card => {
+        card.style.borderColor = '#e9ecef';
+        const indicator = card.querySelector('.selected-indicator');
+        if (indicator) indicator.style.display = 'none';
+    });
+    document.getElementById('selectedBarangId').value = '';
+    document.getElementById('barangError').style.display = 'none';
+    if (modalPinjam) modalPinjam.show();
+}
+
+// Handle barang card selection
+document.querySelectorAll('.barang-card').forEach(card => {
+    card.addEventListener('click', function() {
+        const id = this.getAttribute('data-id');
+        const selectedId = document.getElementById('selectedBarangId').value;
+        
+        if (selectedId === id) {
+            this.style.borderColor = '#e9ecef';
+            this.querySelector('.selected-indicator').style.display = 'none';
+            document.getElementById('selectedBarangId').value = '';
+            document.getElementById('barangError').style.display = 'none';
+        } else {
+            document.querySelectorAll('.barang-card').forEach(c => {
+                c.style.borderColor = '#e9ecef';
+                c.querySelector('.selected-indicator').style.display = 'none';
+            });
+            
+            this.style.borderColor = '#007bff';
+            this.querySelector('.selected-indicator').style.display = 'block';
+            document.getElementById('selectedBarangId').value = id;
+            document.getElementById('barangError').style.display = 'none';
+        }
+    });
+});
+
+// Submit Form Peminjaman
+document.getElementById('formPinjam')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const selectedBarangId = document.getElementById('selectedBarangId').value;
+    if (!selectedBarangId) {
+        document.getElementById('barangError').style.display = 'block';
+        return;
+    }
+    
+    const btn = document.getElementById('btnPinjam');
+    const originalText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Memproses...';
+
+    const csrf = document.getElementById('csrfToken').value;
+    const namaPeminjam = document.getElementById('namaPeminjam').value;
+
+    fetch('/api/peminjaman/ajukan', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': csrf
+        },
+        body: JSON.stringify({
+            id_barang: selectedBarangId,
+            nama_peminjam: namaPeminjam
+        })
+    })
+    .then(res => res.json())
+    .then(result => {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+        
+        if (result.success) {
+            if (modalPinjam) modalPinjam.hide();
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: result.message,
+                timer: 2000,
+                showConfirmButton: false
+            }).then(() => location.reload());
+        } else {
+            Swal.fire('Error', result.message, 'error');
+        }
+    })
+    .catch(() => {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+        Swal.fire('Error', 'Terjadi kesalahan sistem saat mengajukan peminjaman.', 'error');
+    });
+});
+
+// Setuju Peminjaman
+function accPinjam(id, nama) {
+    Swal.fire({
+        title: 'Setujui Peminjaman?',
+        html: `Setujui peminjaman dari <strong>${nama}</strong>?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#47c363',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: '<i class="bi bi-check-lg"></i> Ya, Setujui!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            processAction(`/api/peminjaman/${id}/acc`);
+        }
+    });
+}
+
+// Tolak Peminjaman
+function tolakPinjam(id, nama) {
+    Swal.fire({
+        title: 'Tolak Peminjaman?',
+        html: `Tolak peminjaman dari <strong>${nama}</strong>?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#fc544b',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: '<i class="bi bi-x-lg"></i> Ya, Tolak!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            processAction(`/api/peminjaman/${id}/tolak`);
+        }
+    });
+}
+
+// Navigasi ke Form Pengembalian
+function kembaliPinjam(id, barang) {
+    Swal.fire({
+        title: 'Ajukan Pengembalian',
+        html: `Anda akan mengajukan pengembalian untuk barang <strong>${barang}</strong><br><em class="text-muted small">(Siapkan bukti pengembalian: foto/dokumen)</em>`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3abaf4',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: '<i class="bi bi-check-lg"></i> Lanjut ke Form',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = `/peminjaman/kembali/${id}`;
+        }
+    });
+}
+
+function processAction(url) {
+    const csrf = '<%= csrfToken %>';
+
+    Swal.fire({
+        title: 'Memproses...',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+    });
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': csrf
+        }
+    })
+    .then(res => res.json())
+    .then(result => {
+        if (result.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: result.message,
+                timer: 1500,
+                showConfirmButton: false
+            }).then(() => location.reload());
+        } else {
+            Swal.fire('Error', result.message, 'error');
+        }
+    })
+    .catch(() => {
+        Swal.fire('Error', 'Terjadi kesalahan sistem', 'error');
+    });
+}
+</script>

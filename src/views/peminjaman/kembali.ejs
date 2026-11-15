@@ -1,0 +1,103 @@
+<%- include('../layout/header') %>
+<%- include('../layout/sidebar') %>
+
+<div id="main">
+    <header class="mb-3">
+        <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+        </a>
+    </header>
+
+    <div class="page-heading">
+        <h3>Ajukan Pengembalian Barang</h3>
+        <p class="text-muted">Upload bukti pengembalian untuk persetujuan guru</p>
+    </div>
+
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Informasi Peminjaman</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Info Peminjaman -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <p><strong>Nama Barang:</strong></p>
+                                <p class="text-muted"><%= data.nama_barang %></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Tanggal Pinjam:</strong></p>
+                                <p class="text-muted"><%= new Date(data.tgl_pinjam).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) %></p>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <!-- Form Pengembalian -->
+                        <form action="/peminjaman/kembali/<%= data.id %>" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <input type="hidden" name="id" value="<%= data.id %>">
+                            <input type="hidden" name="id_barang" value="<%= data.id_barang %>">
+
+                            <div class="mb-3">
+                                <label class="form-label">Catatan Kondisi Barang Saat Dikembalikan</label>
+                                <textarea class="form-control" name="catatan_pengembalian" rows="3" placeholder="Jelaskan kondisi barang (rusak/baik/catatan lainnya)..." required></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Bukti Pengembalian <span class="text-danger">*</span></label>
+                                <p class="text-muted small">Upload foto/dokumentasi pengembalian barang (JPG, PNG, WebP, Maks. 4MB)</p>
+                                <input type="file" class="form-control" name="bukti_kembali" accept="image/jpeg,image/png,image/webp" required>
+                                <div id="previewContainer" class="mt-2" style="display: none;">
+                                    <small class="text-muted">Preview:</small>
+                                    <br>
+                                    <img id="previewImage" src="" alt="Preview" style="max-width: 300px; max-height: 300px; border: 1px solid #ddd; border-radius: 5px; margin-top: 8px;">
+                                </div>
+                            </div>
+
+                            <div class="alert alert-warning">
+                                <i class="bi bi-exclamation-triangle"></i>
+                                <strong>Perhatian:</strong> Bukti pengembalian akan dicek oleh Guru. Pastikan foto menunjukkan barang dengan jelas. Jika tidak jelas, permohonan pengembalian akan ditolak.
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-check-circle"></i> Ajukan Pengembalian
+                                </button>
+                                <a href="/peminjaman" class="btn btn-secondary">
+                                    <i class="bi bi-x-circle"></i> Batal
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../layout/footer') %>
+</div>
+
+<script>
+// Preview foto bukti pengembalian & client-side limit check
+document.querySelector('input[name="bukti_kembali"]')?.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        if (file.size > 4 * 1024 * 1024) {
+            alert('Ukuran file terlalu besar! Maksimal 4MB.');
+            this.value = '';
+            document.getElementById('previewContainer').style.display = 'none';
+            return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('previewImage').src = e.target.result;
+            document.getElementById('previewContainer').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+});
+</script>
