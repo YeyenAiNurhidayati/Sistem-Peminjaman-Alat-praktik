@@ -1,0 +1,97 @@
+<div id="sidebar" class="active">
+    <div class="sidebar-wrapper active">
+        <div class="sidebar-header position-relative">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="logo">
+                    <a href="/dashboard" class="d-flex align-items-center gap-2 text-decoration-none">
+                        <img src="/assets/logo_tkr.jpeg" alt="Logo TKR" style="height: 40px; width: auto; border-radius: 5px;">
+                        <span style="font-size: 1rem; line-height: 1.2; color: #fff;">Peminjaman<br>Alat Bengkel</span>
+                    </a>
+                </div>
+                <div class="theme-toggle d-flex gap-2 align-items-center mt-2"></div>
+                <div class="sidebar-toggler x">
+                    <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="menu">
+                <li class="sidebar-title">Menu</li>
+
+                <li class="sidebar-item <%= active === 'dashboard' ? 'active' : '' %>">
+                    <a href="/dashboard" class="sidebar-link">
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <% if (role === 'admin') { %>
+                    <li class="sidebar-item <%= active === 'alat' ? 'active' : '' %>">
+                        <a href="/alat" class="sidebar-link">
+                            <i class="bi bi-tools"></i>
+                            <span>Data Alat</span>
+                        </a>
+                    </li>
+                <% } %>
+
+                <li class="sidebar-item <%= active === 'peminjaman' ? 'active' : '' %>">
+                    <a href="/peminjaman" class="sidebar-link">
+                        <i class="bi bi-box-arrow-up"></i>
+                        <span>Peminjaman</span>
+                    </a>
+                </li>
+
+                <% if (['admin', 'guru'].includes(role)) { %>
+                    <li class="sidebar-item <%= active === 'review_kembali' ? 'active' : '' %>">
+                        <a href="/peminjaman/review_kembali" class="sidebar-link">
+                            <i class="bi bi-clipboard-check"></i>
+                            <span>Review Pengembalian</span>
+                            <% if (typeof countPending !== 'undefined' && countPending > 0) { %>
+                                <span class="badge bg-danger ms-2"><%= countPending %></span>
+                            <% } %>
+                        </a>
+                    </li>
+                <% } %>
+
+                <% if (['admin', 'guru'].includes(role)) { %>
+                    <li class="sidebar-item <%= active === 'laporan' ? 'active' : '' %>">
+                        <a href="/laporan" class="sidebar-link">
+                            <i class="bi bi-printer"></i>
+                            <span>Laporan</span>
+                        </a>
+                    </li>
+                <% } %>
+
+                <% if (role === 'admin') { %>
+                    <li class="sidebar-item <%= active === 'users' ? 'active' : '' %>">
+                        <a href="/users" class="sidebar-link">
+                            <i class="bi bi-people-fill"></i>
+                            <span>Manajemen User</span>
+                        </a>
+                    </li>
+                <% } %>
+
+                <li class="sidebar-item <%= active === 'riwayat' ? 'active' : '' %>">
+                    <a href="/riwayat" class="sidebar-link">
+                        <i class="bi bi-clock-history"></i>
+                        <span>Riwayat</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item <%= active === 'profil' ? 'active' : '' %>">
+                    <a href="/profil" class="sidebar-link">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Profil Saya</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a href="/auth/logout" class="sidebar-link text-danger">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
