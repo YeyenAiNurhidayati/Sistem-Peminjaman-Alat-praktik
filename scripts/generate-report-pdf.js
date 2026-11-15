@@ -413,19 +413,19 @@ async function generatePdfReport() {
       <tr>
         <td><strong>Administrator</strong></td>
         <td><code>admin</code></td>
-        <td><code>BengkelTKR2026!</code></td>
+        <td><code>password</code></td>
         <td>Kelola inventaris alat bengkel, manajemen akun pengguna, monitoring seluruh transaksi peminjaman, audit log, dan laporan.</td>
       </tr>
       <tr>
         <td><strong>Guru Praktikum</strong></td>
         <td><code>guru</code></td>
-        <td><code>BengkelTKR2026!</code></td>
+        <td><code>password</code></td>
         <td>Verifikasi pengajuan peminjaman alat siswa, inspeksi bukti foto pengembalian alat, approval/rejection fisik alat, dan ekspor laporan.</td>
       </tr>
       <tr>
         <td><strong>Siswa</strong></td>
         <td><code>siswa</code></td>
-        <td><code>BengkelTKR2026!</code></td>
+        <td><code>password</code></td>
         <td>Pengajuan peminjaman alat praktikum bengkel mandiri, pengunggahan foto bukti pengembalian alat, riwayat peminjaman, serta edit profil.</td>
       </tr>
     </tbody>
