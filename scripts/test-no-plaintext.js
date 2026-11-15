@@ -60,7 +60,7 @@ async function runTest() {
 
     // 3. Assert login strictly FAILS (status 200 re-rendering login with error, not redirecting to /dashboard)
     const isRedirectToDashboard = postRes.headers.get('location') === '/dashboard';
-    const isPasswordError = postText.includes('Password salah!');
+    const isPasswordError = postText.includes('Username atau password salah');
 
     if (!isRedirectToDashboard && isPasswordError) {
       console.log('✓ PASSED: Login with plaintext password was strictly REJECTED by bcrypt.compare!');

@@ -136,14 +136,14 @@ async function runSecuritySuite() {
       redirect: 'manual'
     });
     const weakHtml = await resWeak.text();
-    const isWeakRejected = weakHtml.includes('Password minimal 6 karakter');
+    const isWeakRejected = weakHtml.includes('Password minimal');
 
     results.push({
       id: 'SEC-AFT-04',
-      scenario: 'Penolakan Password Lemah (< 6 Karakter) pada Registrasi',
+      scenario: 'Penolakan Password Lemah (< 10 Karakter) pada Registrasi',
       method: 'POST /auth/register dengan password "123"',
-      expected: 'Form ditolak dengan pesan validasi "Password minimal 6 karakter"',
-      actual: isWeakRejected ? 'Pesan validasi Zod muncul di halaman' : 'Gagal mendeteksi pesan',
+      expected: 'Form ditolak dengan pesan validasi "Password minimal 10 karakter"',
+      actual: isWeakRejected ? 'Pesan validasi Password Policy muncul di halaman' : 'Gagal mendeteksi pesan',
       passed: isWeakRejected
     });
     console.log(`Result: ${isWeakRejected ? 'PASSED (Lolos)' : 'FAILED'}`);
@@ -160,8 +160,8 @@ async function runSecuritySuite() {
     dupBody.append('_csrf', csrf3);
     dupBody.append('nama', 'Duplikat Admin');
     dupBody.append('username', 'admin'); // ALREADY EXISTS
-    dupBody.append('password', 'AdminSecure123!');
-    dupBody.append('confirmPassword', 'AdminSecure123!');
+    dupBody.append('password', 'BengkelKuningan2026!');
+    dupBody.append('confirmPassword', 'BengkelKuningan2026!');
 
     const resDup = await fetch(`${baseUrl}/auth/register`, {
       method: 'POST',
@@ -237,15 +237,15 @@ async function runSecuritySuite() {
     });
     const sqliHtml = await resSqli.text();
     const isSqliBypass = resSqli.headers.get('location') === '/dashboard';
-    const isSafeMessage = sqliHtml.includes('Username tidak ditemukan!');
+    const isSafeMessage = sqliHtml.includes('Username atau password salah');
     const sqliPassed = !isSqliBypass && isSafeMessage;
 
     results.push({
       id: 'SEC-AFT-07',
       scenario: 'Proteksi SQL Injection pada Input Kredensial Login',
       method: `POST /auth/login dengan payload username="${sqliPayload}"`,
-      expected: 'Injeksi gagal, query menggunakan parameter prepared statement (Username tidak ditemukan)',
-      actual: isSqliBypass ? 'RENTAN: SQL Injection berhasil bypass auth' : 'AMAN: Injeksi ditolak, respons "Username tidak ditemukan!"',
+      expected: 'Injeksi gagal, query menggunakan parameter prepared statement (Username atau password salah)',
+      actual: isSqliBypass ? 'RENTAN: SQL Injection berhasil bypass auth' : 'AMAN: Injeksi ditolak, respons generik "Username atau password salah"',
       passed: sqliPassed
     });
     console.log(`Result: ${sqliPassed ? 'PASSED (Lolos)' : 'FAILED'}`);

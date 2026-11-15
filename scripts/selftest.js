@@ -181,8 +181,8 @@ async function runSelfTest() {
       const tDummy = performance.now() - t1;
       const htmlDummy = await resDummy.text();
 
-      const sqliMsg = htmlSqli.includes('Username tidak ditemukan!');
-      const dummyMsg = htmlDummy.includes('Username tidak ditemukan!');
+      const sqliMsg = htmlSqli.includes('Username atau password salah');
+      const dummyMsg = htmlDummy.includes('Username atau password salah');
       const notBypassed = resSqli.headers.get('location') !== '/dashboard';
 
       // 6b. Uji langsung ke query layer database
@@ -192,7 +192,7 @@ async function runSelfTest() {
       // Catat apakah Zod atau Prepared Statement yang menolak:
       // Zod schema: z.string().trim().min(1) mengizinkan string ini, sehingga yang menolak adalah Prepared Statement database.
       isSqliPass = notBypassed && sqliMsg && dummyMsg && dbLayerSafe;
-      sqliBukti = `HTTP: Status ${resSqli.status} vs ${resDummy.status} (Pesan: "Username tidak ditemukan!"). Query layer: ${dbRows.length} baris (Prepared Statement aktif, bukan Zod). Delta waktu: ${Math.abs(tSqli - tDummy).toFixed(1)}ms.`;
+      sqliBukti = `HTTP: Status ${resSqli.status} vs ${resDummy.status} (Pesan: "Username atau password salah"). Query layer: ${dbRows.length} baris (Prepared Statement aktif, bukan Zod). Delta waktu: ${Math.abs(tSqli - tDummy).toFixed(1)}ms.`;
     }
 
     results.push({
@@ -472,9 +472,9 @@ async function runSelfTest() {
       const plHtml = await plRes.text();
 
       const notRedirected = plRes.headers.get('location') !== '/dashboard';
-      const hasErrorMsg = plHtml.includes('Password salah!');
+      const hasErrorMsg = plHtml.includes('Username atau password salah');
       isPlaintextRejected = notRedirected && hasErrorMsg;
-      plaintextBukti = `Password di DB: teks polos -> Login dengan password sama: DITOLAK (bcrypt.compare=false, pesan: "Password salah!")`;
+      plaintextBukti = `Password di DB: teks polos -> Login dengan password sama: DITOLAK (bcrypt.compare=false, pesan: "Username atau password salah")`;
     } catch (plErr) {
       isPlaintextRejected = false;
       plaintextBukti = `Error: ${plErr.message}`;

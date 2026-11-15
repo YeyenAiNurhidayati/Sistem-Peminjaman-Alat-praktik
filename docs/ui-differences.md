@@ -83,5 +83,10 @@ Sesuai standar verifikasi visual, seluruh halaman dengan persentase selisih di a
    - **Selisih**: Perbedaan rendering font anti-aliasing Linux/Windows dan dinamisasi avatar profil.
    - **Justifikasi**: Disengaja.
 
+## 4. Perubahan Pesan Kegagalan Login (Hardening Anti-User Enumeration & Timing Attacks)
+* **Kondisi Sebelumnya**: Pesan error membedakan secara spesifik antara `"Username tidak ditemukan!"` dan `"Password salah!"`.
+* **Kondisi Baru (Diperbarui)**: Pesan error diubah menjadi pesan generik tunggal: `"Username atau password salah"`.
+* **Justifikasi Keamanan**: Mencegah penyerang mengetahui apakah suatu username terdaftar pada sistem (*user enumeration attack*). Selain itu, sistem mengeksekusi `bcrypt.compare` terhadap *dummy hash* acak ketika username tidak ditemukan guna menyamakan waktu komputasi respons (*timing attack mitigation*).
+
 ---
 *Laporan diperbarui secara otomatis melalui `node scripts/capture-node.js` dengan pembekuan animasi CSS penuh.*

@@ -83,7 +83,7 @@ export const updateProfile = async (req, res) => {
     // 2. Validate basic input fields
     const parseResult = profileSchema.safeParse(req.body);
     if (!parseResult.success) {
-      return renderWithError(parseResult.error.errors[0]?.message || 'Input tidak valid');
+      return renderWithError(parseResult.error.issues?.[0]?.message || parseResult.error.errors?.[0]?.message || 'Input tidak valid');
     }
 
     const { nama, old_password, password, confirm_password } = parseResult.data;

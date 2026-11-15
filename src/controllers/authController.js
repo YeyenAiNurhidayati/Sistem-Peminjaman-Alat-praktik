@@ -55,7 +55,7 @@ export const processLogin = async (req, res) => {
   try {
     const parseResult = loginSchema.safeParse(req.body);
     if (!parseResult.success) {
-      const errorMsg = parseResult.error.errors[0]?.message || 'Input tidak valid';
+      const errorMsg = parseResult.error.issues?.[0]?.message || parseResult.error.errors?.[0]?.message || 'Input tidak valid';
       return res.render('auth/login', {
         title: 'Login | Peminjaman Alat Bengkel',
         error: errorMsg,
@@ -69,11 +69,16 @@ export const processLogin = async (req, res) => {
     // Parameterized Query to prevent SQL Injection
     const [users] = await pool.execute('SELECT * FROM users WHERE username = ? LIMIT 1', [username]);
 
+    // Constant dummy bcrypt hash for timing attack mitigation and anti-user enumeration
+    const DUMMY_HASH = '$2a$10$7EqJtq98hPqEX7fNZaFWoO.8/k.J9Y2300zQj1m785fN39pS90yqm';
+
     if (!users || users.length === 0) {
+      // Execute dummy comparison to equalize execution time against valid username checks
+      await bcrypt.compare(password, DUMMY_HASH);
       await recordLoginFailure(req, username);
       return res.render('auth/login', {
         title: 'Login | Peminjaman Alat Bengkel',
-        error: 'Username tidak ditemukan!',
+        error: 'Username atau password salah',
         success: null,
         oldUsername: username
       });
@@ -87,7 +92,7 @@ export const processLogin = async (req, res) => {
       await recordLoginFailure(req, user.username);
       return res.render('auth/login', {
         title: 'Login | Peminjaman Alat Bengkel',
-        error: 'Password salah!',
+        error: 'Username atau password salah',
         success: null,
         oldUsername: username
       });
@@ -142,7 +147,7 @@ export const processRegister = async (req, res) => {
   try {
     const parseResult = registerSchema.safeParse(req.body);
     if (!parseResult.success) {
-      const errorMsg = parseResult.error.errors[0]?.message || 'Input tidak valid';
+      const errorMsg = parseResult.error.issues?.[0]?.message || parseResult.error.errors?.[0]?.message || 'Input tidak valid';
       return res.render('auth/register', {
         title: 'Registrasi Siswa | Peminjaman Alat Bengkel',
         error: errorMsg,

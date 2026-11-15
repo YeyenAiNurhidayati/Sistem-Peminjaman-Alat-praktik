@@ -165,7 +165,7 @@ export const createAlat = async (req, res) => {
   try {
     const parseResult = toolSchema.safeParse(req.body);
     if (!parseResult.success) {
-      const errorMsg = parseResult.error.errors[0]?.message || 'Input tidak valid';
+      const errorMsg = parseResult.error.issues?.[0]?.message || parseResult.error.errors?.[0]?.message || 'Input tidak valid';
       if (isAjax) return res.status(400).json({ success: false, message: errorMsg });
       return res.redirect(`/alat?error=${encodeURIComponent(errorMsg)}`);
     }
@@ -223,7 +223,7 @@ export const updateAlat = async (req, res) => {
 
     const parseResult = toolSchema.safeParse(req.body);
     if (!parseResult.success) {
-      const errorMsg = parseResult.error.errors[0]?.message || 'Input tidak valid';
+      const errorMsg = parseResult.error.issues?.[0]?.message || parseResult.error.errors?.[0]?.message || 'Input tidak valid';
       if (isAjax) return res.status(400).json({ success: false, message: errorMsg });
       return res.redirect(`/alat?error=${encodeURIComponent(errorMsg)}`);
     }

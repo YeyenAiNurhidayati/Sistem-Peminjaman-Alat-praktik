@@ -16,10 +16,9 @@ async function resetSeedPasswords() {
     process.exit(1);
   }
 
-  const defaultStrongPass = 'BengkelTKR2026!';
-  const adminPass = process.env.SEED_ADMIN_PASSWORD || defaultStrongPass;
-  const guruPass = process.env.SEED_GURU_PASSWORD || defaultStrongPass;
-  const siswaPass = process.env.SEED_SISWA_PASSWORD || defaultStrongPass;
+  const adminPass = process.env.SEED_ADMIN_PASSWORD || 'SuperBengkel#2026!';
+  const guruPass = process.env.SEED_GURU_PASSWORD || 'PengawasPraktik#2026!';
+  const siswaPass = process.env.SEED_SISWA_PASSWORD || 'TeknikOtomotif#2026!';
 
   const accounts = [
     { username: 'admin', rawPass: adminPass },

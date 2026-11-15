@@ -7,14 +7,18 @@
 
 SET FOREIGN_KEY_CHECKS = 0;
 
+-- Passwords:
+-- admin: SuperBengkel#2026!
+-- guru:  PengawasPraktik#2026!
+-- siswa: TeknikOtomotif#2026!
 INSERT INTO `users` (`id`, `nama`, `username`, `password`, `role`, `foto_profil`, `nip`, `nisn`, `kelas`) VALUES
-(1, 'Hendrik Administrator', 'admin', '$2a$10$/bS./C4DjxXlu/m/sF904uUG8bWhxPg45dSjCwm1G.jEDsTZsWthy', 'admin', '1768733609_1252.png', '198505112008011001', NULL, NULL),
-(2, 'Pak Guru Mesin', 'guru', '$2a$10$/bS./C4DjxXlu/m/sF904uUG8bWhxPg45dSjCwm1G.jEDsTZsWthy', 'guru', '1768735977_1482.jpeg', '197203151998021002', NULL, NULL),
-(3, 'Siswa Teladan', 'siswa', '$2a$10$/bS./C4DjxXlu/m/sF904uUG8bWhxPg45dSjCwm1G.jEDsTZsWthy', 'siswa', '1768738457_3523.jpeg', NULL, '202401001', '12A'),
-(4, 'Budi Santoso', 'siswa2', '$2a$10$/bS./C4DjxXlu/m/sF904uUG8bWhxPg45dSjCwm1G.jEDsTZsWthy', 'siswa', NULL, NULL, '202401002', '12A'),
-(5, 'Ani Wijaya', 'siswa3', '$2a$10$/bS./C4DjxXlu/m/sF904uUG8bWhxPg45dSjCwm1G.jEDsTZsWthy', 'siswa', NULL, NULL, '202401003', '12B'),
-(6, 'Ibu Koordinator Praktikum', 'guru2', '$2a$10$/bS./C4DjxXlu/m/sF904uUG8bWhxPg45dSjCwm1G.jEDsTZsWthy', 'guru', NULL, '197805201999032001', NULL, NULL)
-ON DUPLICATE KEY UPDATE `id` = `id`;
+(1, 'Hendrik Administrator', 'admin', '$2a$10$OQTMbebSmEtQ75.BlWcn7u4fHKC.ycqNjAeeUQl1CmEWBZSRAySDq', 'admin', '1768733609_1252.png', '198505112008011001', NULL, NULL),
+(2, 'Pak Guru Mesin', 'guru', '$2a$10$.VGkPJWVJx5uL0aEJqnszOFbkYW997x6ksgDLen/FifOOKdLF.gEq', 'guru', '1768735977_1482.jpeg', '197203151998021002', NULL, NULL),
+(3, 'Siswa Teladan', 'siswa', '$2a$10$BUw9PBx9isQym06gFkzSj.Dis78xhhPDIwcgOi8UqRuTX9cVpY6Xy', 'siswa', '1768738457_3523.jpeg', NULL, '202401001', '12A'),
+(4, 'Budi Santoso', 'siswa2', '$2a$10$BUw9PBx9isQym06gFkzSj.Dis78xhhPDIwcgOi8UqRuTX9cVpY6Xy', 'siswa', NULL, NULL, '202401002', '12A'),
+(5, 'Ani Wijaya', 'siswa3', '$2a$10$BUw9PBx9isQym06gFkzSj.Dis78xhhPDIwcgOi8UqRuTX9cVpY6Xy', 'siswa', NULL, NULL, '202401003', '12B'),
+(6, 'Ibu Koordinator Praktikum', 'guru2', '$2a$10$.VGkPJWVJx5uL0aEJqnszOFbkYW997x6ksgDLen/FifOOKdLF.gEq', 'guru', NULL, '197805201999032001', NULL, NULL)
+ON DUPLICATE KEY UPDATE `password` = VALUES(`password`);
 
 INSERT INTO `barang` (`id`, `nama_barang`, `kategori`, `stok`, `kondisi`, `foto`) VALUES
 (1, 'Kunci Inggris 10 inch', 'Hand Tools', 10, 'Baik', 'kunci_pas.jpg'),
