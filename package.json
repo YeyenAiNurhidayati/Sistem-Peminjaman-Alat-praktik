@@ -15,6 +15,7 @@
     "db:migrate": "node scripts/migrate.js",
     "db:seed": "node scripts/seed.js",
     "db:reset-passwords": "node scripts/reset-seed-passwords.js",
+    "generate:report": "node scripts/generate-report-pdf.js",
     "test:concurrency": "node scripts/test-concurrency.js",
     "test:module5": "node scripts/test-module5.js"
   },
