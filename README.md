@@ -142,4 +142,23 @@ Proyek ini dilengkapi skrip pengujian keamanan otomatis untuk memverifikasi kean
 ---
 
 ## Transparansi Penggunaan Perangkat Bantu AI
-Pengembangan proyek ini melibatkan bantuan Antigravity AI Coding Assistant sebagai mitra pemrograman (*pair programming*). Peran AI mencakup identifikasi kerentanan kode legacy, penyusunan rancangan arsitektur serverless, dan penulisan skrip pengujian otomatis. Seluruh kode, konfigurasi cloud, dan keputusan logika sistem telah diuji, diverifikasi, dan divalidasi secara mandiri oleh mahasiswa pengembang.
+
+Pengembangan proyek modernisasi dan pengerasan keamanan Sistem Informasi Peminjaman Alat Bengkel (SIPAB v2.0) dilakukan dengan memanfaatkan perangkat bantu kecerdasan buatan, yaitu **Antigravity AI Coding Assistant (Google DeepMind)**, dengan pembagian peran yang terukur dan bertanggung jawab:
+
+### Pembagian Peran dan Tanggung Jawab
+* **Mahasiswa Pengembang (Yeyen Ai Nurhidayati)**:
+  * Bertindak sebagai *Lead Developer* dan *System Architect* yang merancang arsitektur sistem, aturan bisnis peminjaman bengkel TKR, serta pemodelan skema basis data relasional (7 tabel).
+  * Melakukan konfigurasi infrastruktur cloud secara langsung pada platform Vercel Edge dan TiDB Cloud.
+  * Melakukan penelaahan kode (*code review*), pengujian fungsional manual pada peramban, serta validasi integritas data.
+* **Peran AI Coding Assistant**:
+  * Berfungsi sebagai mitra pemrograman (*pair programming partner*) untuk membantu pemindaian awal kerentanan keamanan pada kode legacy PHP (OWASP Top 10).
+  * Membantu penyusunan kerangka kerja (*scaffolding*) controller Express.js ESM dan skema validasi Zod.
+  * Membantu perancangan skrip pengujian mandiri otomatis (*automated security test runner*).
+
+### Contoh Prompt Utama yang Digunakan
+1. **Analisis Kerentanan Awal**:
+   > *"Identifikasi potensi kerentanan keamanan OWASP Top 10 pada modul autentikasi dan peminjaman berbasis PHP legacy ini, khususnya terkait penanganan password dan parameter query SQL."*
+2. **Perancangan Mekanisme Rate Limiter Serverless**:
+   > *"Bantu rancang arsitektur rate limiting login yang kompatibel dengan karakteristik stateless pada Vercel Serverless Function menggunakan tabel MySQL terpusat untuk menyimpan counter kegagalan."*
+3. **Penyusunan Skrip Pengujian Mandiri Otomatis**:
+   > *"Buatkan skrip otomasi pengujian mandiri (self-testing runner) berbasis Node.js yang memverifikasi mitigasi SQL Injection, XSS escaping, proteksi CSRF, dan kontrol akses RBAC secara empiris."*
