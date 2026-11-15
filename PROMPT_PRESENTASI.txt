@@ -1,0 +1,162 @@
+====================================================================================================
+               SKRIP PRESENTASI & PROMPT PROSPEK (CUE CARD) APLIKASI
+               SISTEM INFORMASI PEMINJAMAN ALAT BENGKEL (SIPAB)
+====================================================================================================
+Oleh: Yeyen Ai Nurhidayati (NIM: 20240810020)
+Gaya Penyampaian: Profesional, Tenang, Menguasai Materi, dan Fokus pada Solusi Nyata.
+
+Petunjuk Penggunaan:
+- [TINDAKAN]: Apa yang harus Anda lakukan di layar (mouse click / navigasi browser).
+- [UCAPAN]: Kalimat yang Anda ucapkan secara lisan di depan Dosen/Penguji.
+- Tanda (Durasi: ...) membantu Anda memperkirakan kecepatan berbicara.
+====================================================================================================
+
+----------------------------------------------------------------------------------------------------
+BAGIAN 1: PEMBUKAAN & PERKENALAN DIRI (Durasi: ~1 Menit)
+----------------------------------------------------------------------------------------------------
+[TINDAKAN]: Tampilkan halaman login aplikasi (auth/login.php) di layar proyektor/share screen.
+
+[UCAPAN]:
+"Selamat pagi/siang Bapak dan Ibu Dosen Penguji. 
+Perkenalkan, nama saya Yeyen Ai Nurhidayati dengan NIM 20240810020. 
+
+Pada kesempatan hari ini, saya akan mempresentasikan projek ujian akhir pemrograman web native saya yang berjudul: 'Sistem Informasi Peminjaman Alat Bengkel' atau kita sebut dengan SIPAB.
+
+Aplikasi ini dibangun menggunakan bahasa pemrograman PHP Native, database MySQL, dengan antarmuka yang modern menggunakan framework Bootstrap 5."
+
+
+----------------------------------------------------------------------------------------------------
+BAGIAN 2: LATAR BELAKANG & ALASAN PEMILIHAN PROJEK (Durasi: ~2 Menit)
+----------------------------------------------------------------------------------------------------
+[TINDAKAN]: Tetap di halaman login atau arahkan cursor ke logo instansi/sekolah jika ada.
+
+[UCAPAN]:
+"Bapak dan Ibu Dosen, alasan utama saya memilih projek manajemen alat bengkel ini dilatarbelakangi oleh permasalahan nyata yang sering terjadi di laboratorium praktikum sekolah kejuruan atau universitas teknik.
+
+Selama ini, pencatatan peminjaman alat-alat kerja atau perkakas bengkel masih dikelola secara konvensional menggunakan buku besar. Metode manual ini menimbulkan beberapa masalah serius:
+1. Pertama, tingginya angka kehilangan alat karena pencatatan nama peminjam yang tidak rapi dan sulit dilacak.
+2. Kedua, kerusakan alat yang tidak terdeteksi penanggung jawabnya. Seringkali alat dikembalikan dalam kondisi rusak atau cacat tanpa disadari oleh pengawas.
+3. Ketiga, informasi sisa stok alat yang tersedia di bengkel tidak dapat dipantau secara real-time.
+
+Oleh karena itu, saya merancang sebuah solusi digital yang tidak hanya mencatat peminjaman, melainkan menyertakan workflow pengembalian bersyarat. Di mana siswa yang mengembalikan wajib mengunggah foto bukti fisik kondisi terkini dari alat yang dipinjam, kemudian diverifikasi secara langsung oleh guru sebelum stok dikembalikan ke sistem. Hal ini menumbuhkan tanggung jawab dan transparansi penuh."
+
+
+----------------------------------------------------------------------------------------------------
+BAGIAN 3: STRUKTUR AKTOR & FITUR UTAMA (Durasi: ~2 Menit)
+----------------------------------------------------------------------------------------------------
+[TINDAKAN]: Lakukan login pertama sebagai Siswa (Username: `siswa`, Password: sesuai konfigurasi `.env`). Tampilkan halaman Dashboard Siswa.
+
+[UCAPAN]:
+"Sistem ini memiliki 3 tingkatan hak akses yang memiliki peran masing-masing:
+
+1. Aktor pertama adalah SISWA. Sebagai peminjam, siswa dapat memantau katalog alat yang siap pakai, mengajukan permohonan pinjam, dan mengembalikan alat dengan menyertakan catatan kondisi serta foto bukti fisik alat.
+
+2. Aktor kedua adalah GURU. Guru bertindak sebagai verifikator. Guru memegang otorisasi untuk melakukan review terhadap foto bukti fisik pengembalian yang dikirim oleh siswa. Guru berhak menyetujui (ACC) jika barang kembali utuh, atau menolak pengembalian disertai dengan alasan penolakan jika barang rusak atau tidak sesuai.
+
+3. Aktor ketiga adalah ADMIN. Admin memiliki kekuasaan penuh atas sistem untuk mengelola data master alat bengkel (CRUD), mengelola akun pengguna (siswa dan guru), serta melihat riwayat keseluruhan dan mencetak laporan transaksi.
+
+Sekarang, mari kita langsung masuk ke skenario demonstrasi aplikasi untuk melihat bagaimana alur kerja sistem ini berjalan."
+
+
+----------------------------------------------------------------------------------------------------
+BAGIAN 4: DEMONSTRASI WORKFLOW - SISI SISWA (Durasi: ~2.5 Menit)
+----------------------------------------------------------------------------------------------------
+[TINDAKAN]:
+1. Arahkan mouse ke menu Sidebar, klik 'Riwayat' atau 'Peminjaman Saya'.
+2. Cari peminjaman yang berstatus 'disetujui' (artinya barang sedang di tangan siswa).
+3. Klik tombol 'Ajukan Kembali' pada baris data tersebut. Anda akan masuk ke form kembali.php.
+
+[UCAPAN]:
+"Saat ini saya sudah masuk menggunakan akun Siswa bernama 'Siswa Teladan'. 
+Di dashboard siswa, terdapat informasi statistik peminjaman aktif saya. Saya akan mendemonstrasikan bagaimana siswa mengembalikan barang.
+
+Saya akan masuk ke menu peminjaman aktif saya. Di sini terlihat saya sedang meminjam alat 'Kunci Inggris 10 inch' dengan status 'Disetujui'. Saya akan menekan tombol 'Ajukan Kembali' untuk menyerahkannya kembali ke bengkel."
+
+[TINDAKAN]:
+1. Pada form catatan kondisi, ketik: "Kunci inggris dikembalikan dalam kondisi bersih dan bebas minyak."
+2. Klik tombol upload file, pilih file gambar dummy (format .jpg atau .png).
+3. Tunjukkan di layar bahwa gambar langsung tampil di bawah input file sebagai preview instan.
+4. Klik tombol 'Kirim Pengajuan' atau 'Simpan'.
+
+[UCAPAN]:
+"Pada halaman form pengembalian ini, saya wajib mengisi catatan kondisi barang untuk memastikan transparansi. Saya tulis: 'Kunci inggris dalam kondisi bersih'.
+
+Selanjutnya, saya harus mengunggah foto bukti fisik alat tersebut. Sistem ini dilengkapi fitur client-side image preview. Ketika saya memilih foto, gambarnya akan langsung tampil di bawah inputan secara instan untuk membantu siswa memastikan foto sudah benar dan tidak blur sebelum dikirim.
+
+Sekarang saya klik kirim. Sistem memproses unggahan file, mengubah nama file secara unik berbasis timestamp untuk mencegah tabrakan file di server, lalu menyimpan fotonya ke direktori aman. Status transaksi kini berubah menjadi 'Menunggu Pengembalian'. Sekarang, saya akan logout dari akun siswa dan masuk sebagai guru."
+
+
+----------------------------------------------------------------------------------------------------
+BAGIAN 5: DEMONSTRASI WORKFLOW - SISI GURU (Durasi: ~2.5 Menit)
+----------------------------------------------------------------------------------------------------
+[TINDAKAN]:
+1. Logout dari akun siswa.
+2. Login sebagai Guru (Username: `guru`, Password: sesuai konfigurasi `.env`).
+3. Saat masuk dashboard, langsung sorot/tunjuk menu 'Review Pengembalian' di sidebar yang memiliki badge angka berwarna merah.
+4. Klik menu 'Review Pengembalian'.
+
+[UCAPAN]:
+"Sekarang, saya login sebagai Guru dengan akun 'Pak Guru Mesin'.
+Dapat kita lihat bersama pada menu sidebar sebelah kiri, terdapat badge angka notifikasi berwarna merah pada menu 'Review Pengembalian'. Angka ini menunjukkan secara dinamis jumlah siswa yang mengajukan pengembalian alat dan menunggu persetujuan saya sebagai guru.
+
+Mari kita klik menu tersebut."
+
+[TINDAKAN]:
+1. Cari transaksi atas nama 'Siswa Teladan' yang barusan diajukan.
+2. Klik tombol 'Lihat Bukti' pada kolom aksi. Sebuah modal Bootstrap akan muncul menampilkan foto bukti fisik yang diunggah siswa tadi.
+
+[UCAPAN]:
+"Di halaman ini, saya disajikan tabel daftar pengembalian pending. Saya bisa melihat nama siswa, alat yang dipinjam, tanggal pinjam, dan catatan kondisi dari siswa.
+Untuk melakukan verifikasi fisik, saya klik tombol 'Lihat Bukti'. Secara interaktif, sistem akan membuka modal Bootstrap untuk menampilkan foto barang secara utuh tanpa perlu berpindah halaman atau mengunduh gambar secara manual. Ini membuat proses verifikasi menjadi sangat cepat."
+
+[TINDAKAN]:
+1. Simulasikan penolakan terlebih dahulu (opsional untuk menunjukkan fungsionalitas detail). Klik tombol 'Tolak' pada baris tersebut.
+2. Muncul dialog input alasan. Tulis: "Kunci inggris masih kotor terkena oli, tolong dibersihkan dulu sebelum dikembalikan." lalu klik konfirmasi.
+3. Tunjukkan bahwa status kembali ke status semula, lalu simulasikan penarikan kembali hingga Guru menekan tombol 'Terima'.
+4. Klik tombol 'Terima' pada aksi baris data tersebut. Klik konfirmasi setuju pada dialog konfirmasi.
+5. Halaman akan reload asinkronus (AJAX) dan baris tersebut akan hilang dari daftar tunggu guru.
+
+[UCAPAN]:
+"Sebagai contoh, apabila foto tidak jelas atau alat dikembalikan dalam kondisi kotor, saya bisa mengklik tombol 'Tolak' dan mengetikkan alasan penolakan. Status transaksi di siswa akan kembali ke 'Disetujui' sehingga siswa tahu letak kesalahannya dan dapat mengajukan kembali setelah diperbaiki.
+
+Namun, jika kondisi alat sudah sesuai dengan foto bukti, saya sebagai guru akan menekan tombol 'Terima'. 
+Proses persetujuan ini dijalankan menggunakan AJAX di latar belakang secara asinkronus. Begitu saya konfirmasi, sistem melakukan tiga operasi database sekaligus:
+1. Pertama, mengubah status transaksi menjadi 'kembali'.
+2. Kedua, mencatat tanggal pengembalian secara otomatis berdasarkan tanggal hari ini.
+3. Ketiga, mengembalikan stok alat bersangkutan di database sebanyak +1 unit sehingga siap untuk dipinjam oleh siswa lainnya.
+
+Bisa kita lihat di layar, data siswa tersebut kini sudah bersih dari daftar tunggu guru karena transaksi pengembalian telah selesai disetujui."
+
+
+----------------------------------------------------------------------------------------------------
+BAGIAN 6: DEMONSTRASI SISI ADMIN & LAPORAN (Durasi: ~1 Menit)
+----------------------------------------------------------------------------------------------------
+[TINDAKAN]:
+1. Navigasi ke menu 'Laporan' di sidebar. Tampilkan halaman laporan transaksi peminjaman.
+2. Arahkan mouse ke tombol 'Cetak Laporan' atau ikon printer.
+
+[UCAPAN]:
+"Terakhir, saya akan memperlihatkan menu laporan yang dapat diakses oleh Guru maupun Admin. Seluruh riwayat transaksi peminjaman, baik yang masih aktif maupun yang sudah dikembalikan, tercatat dengan terperinci dan dapat disaring.
+Data ini juga siap untuk dicetak sebagai dokumen fisik atau diekspor ke PDF untuk kebutuhan laporan bulanan kepala bengkel."
+
+
+----------------------------------------------------------------------------------------------------
+BAGIAN 7: PENUTUP, EVALUASI KEAMANAN & TANYA JAWAB (Durasi: ~1 Menit)
+----------------------------------------------------------------------------------------------------
+[TINDAKAN]: Navigasi kembali ke Dashboard utama guru, biarkan layar menampilkan grafik/statistik dashboard.
+
+[UCAPAN]:
+"Secara keseluruhan, aplikasi ini telah berhasil mengimplementasikan alur peminjaman alat bengkel secara terintegrasi dan transparan menggunakan PHP Native dan MySQL.
+
+Dari sisi evaluasi teknis, saya mencatat beberapa potensi pengembangan keamanan untuk projek ini kedepannya, di antaranya:
+1. Menerapkan Prepared Statements pada query database untuk mencegah risiko serangan SQL Injection.
+2. Menggunakan password hashing seperti bcrypt saat registrasi pengguna baru untuk mengamankan data kredensial di database.
+3. Serta menambahkan validasi tipe MIME file gambar pada sisi server untuk memastikan tidak ada file berbahaya yang diunggah.
+
+Demikian presentasi dari saya, Yeyen Ai Nurhidayati. Saya berharap sistem informasi ini dapat membantu pengelolaan fasilitas bengkel menjadi jauh lebih tertib, efisien, dan bebas risiko kehilangan alat.
+
+Terima kasih atas perhatian Bapak dan Ibu Dosen Penguji. Waktu dan tempat saya kembalikan, dan saya siap untuk sesi tanya jawab."
+
+====================================================================================================
+               SKRIP SELESAI - SEMOGA SUKSES DENGAN PRESENTASINYA, YEYEN!
+====================================================================================================
