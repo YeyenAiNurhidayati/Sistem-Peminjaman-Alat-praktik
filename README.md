@@ -1,115 +1,145 @@
-# 🛠️ SISTEM INFORMASI PEMINJAMAN ALAT BENGKEL (SIPAB) v2.0
-### Platform Manajemen Inventaris & Peminjaman Alat Bengkel Berbasis Node.js & Vercel Serverless
+# Sistem Informasi Peminjaman Alat Bengkel (SIPAB v2.0)
+Aplikasi Manajemen Inventaris dan Peminjaman Alat Bengkel Berbasis Node.js dan Serverless Cloud
 
-Aplikasi web modern yang mendigitalisasi administrasi peminjaman dan pengembalian alat praktikum teknik/bengkel sekolah dengan alur verifikasi fisik bertingkat (*two-tier approval workflow*), pengerasan keamanan siber OWASP, dan kesiapan arsitektur *serverless cloud*.
-
----
-
-## 👤 IDENTITAS PENGEMBANG
-* **Nama Pengembang** : Yeyen Ai Nurhidayati
-* **NIM**             : 20240810020
-* **Mata Kuliah**     : Pemrograman Web & Cyber Security
-* **Target Stack**    : Node.js (LTS v22.x, ES Modules) + Express.js + TiDB Cloud / MySQL + Vercel Blob CDN
+Aplikasi web Sistem Informasi Peminjaman Alat Bengkel (SIPAB v2.0) dikembangkan untuk mendigitalkan administrasi peminjaman dan pengembalian perkakas praktikum pada bengkel Teknik Kendaraan Ringan (TKR) SMKN 5 Kuningan. Proyek ini merupakan hasil modernisasi dan pengerasan keamanan (*security hardening*) dari sistem monolitik PHP Native menuju arsitektur cloud serverless modern yang memenuhi standar keamanan OWASP Top 10.
 
 ---
 
-## 📚 PANDUAN & DOKUMENTASI LENGKAP
-Projek ini dilengkapi dengan paket dokumentasi serah-terima komprehensif untuk pengujian dan demonstrasi:
-
-* 📖 [**`SETUP.md`**](file:///c:/xampp/htdocs/Projek_P.Web-Native/SETUP.md): Panduan langkah-demi-langkah (klik-demi-klik) untuk pemula: setup lokal, akun TiDB Cloud, GitHub, Vercel Blob, deployment, dan solusi error.
-* 🧠 [**`docs/PENJELASAN-KODE.md`**](file:///c:/xampp/htdocs/Projek_P.Web-Native/docs/PENJELASAN-KODE.md): Penjelasan alur request-response, arsitektur modul, dan 9 alur kunci keamanan dengan analogi dunia nyata serta nomor baris kode.
-* 🎓 [**`docs/QNA-DEMO.md`**](file:///c:/xampp/htdocs/Projek_P.Web-Native/docs/QNA-DEMO.md): 30 pertanyaan yang sering diajukan dosen penguji (hashing, CSRF, XSS, SQLi, IDOR, dsb.) beserta jawaban taktis 2-4 kalimat dan letak kodenya.
-* 🔍 [**`docs/self-testing-before.md`**](file:///c:/xampp/htdocs/Projek_P.Web-Native/docs/self-testing-before.md): Laporan pengujian empiris kerentanan pada aplikasi PHP legacy (SEC-01 s/d SEC-06).
-* 🛡️ [**`docs/self-testing-after.md`**](file:///c:/xampp/htdocs/Projek_P.Web-Native/docs/self-testing-after.md): Laporan empiris pembuktian seluruh mitigasi keamanan pada arsitektur Node.js baru (SEC-AFT-01 s/d SEC-AFT-16).
-* 🤖 [**`docs/ai-usage-log.md`**](file:///c:/xampp/htdocs/Projek_P.Web-Native/docs/ai-usage-log.md): Catatan transparansi pengerjaan modul bersama asisten AI.
+## Identitas Pengembang
+* **Nama**: Yeyen Ai Nurhidayati
+* **NIM**: 20240810020
+* **Program Studi**: Cyber Security
+* **Mata Kuliah**: Cyber Security
 
 ---
 
-## ⚡ TEKNOLOGI & ARSITEKTUR
-* **Backend:** Node.js (v22 LTS) dengan Express.js 4.21.2.
-* **Frontend:** Template Admin Mazer (Bootstrap 5, Bootstrap Icons, DataTables) dikonversi 100% identik ke template engine EJS dengan *auto-escaping*.
-* **Basis Data:** MariaDB / MySQL 10.4.x (Lokal XAMPP) dan TiDB Cloud Starter (Produksi, Region Singapore `ap-southeast-1` dengan koneksi TLS/SSL).
-* **Manajemen Sesi:** Database-backed sessions (`express-mysql-session`) dengan cookie `httpOnly`, `sameSite: 'lax'`, dan `secure` pada produksi.
-* **Storage Adapter:** Mengunggah ke Vercel Blob CDN saat produksi dan disk lokal saat development, divalidasi dengan *binary magic bytes* (JPG, PNG, WebP) dan limit 4MB.
-* **Keamanan Tambahan:** Helmet (Content Security Policy khusus CDN terdaftar), Perlindungan Token CSRF, Database-Backed Rate Limiting (HTTP 429 Lockout setelah 20 kali kegagalan), Zod input validation, dan Audit Logging.
+## Tautan Akses & Repositori
+* **Aplikasi Web Aktif (HTTPS)**: [https://sistem-peminjaman-alat-praktik.vercel.app/](https://sistem-peminjaman-alat-praktik.vercel.app/)
+* **Repositori GitHub**: [https://github.com/YeyenAiNurhidayati/Sistem-Peminjaman-Alat-praktik-](https://github.com/YeyenAiNurhidayati/Sistem-Peminjaman-Alat-praktik-)
+* **API Healthcheck**: [https://sistem-peminjaman-alat-praktik.vercel.app/api/health](https://sistem-peminjaman-alat-praktik.vercel.app/api/health)
+
+### Kredensial Akun Pengujian (Demo)
+| Peran (Role) | Username | Password | Deskripsi Wewenang |
+| :--- | :--- | :--- | :--- |
+| Administrator | `admin` | `password` | Akses penuh inventaris alat, manajemen pengguna, audit log, dan laporan. |
+| Guru Praktikum | `guru` | `password` | Verifikasi fisik alat, persetujuan pengembalian, dan ekspor laporan. |
+| Siswa | `siswa` | `password` | Peminjaman alat, unggah foto bukti pengembalian, dan pengelolaan profil. |
 
 ---
 
-## 🚀 PANDUAN CEPAT MEMULAI (QUICK START)
-
-### 1. Instalasi Dependensi
-```bash
-npm install
-```
-
-### 2. Verifikasi Otomatis Lingkungan & Database
-Jalankan skrip pembantu setup yang akan memeriksa versi Node, konfigurasi `.env`, koneksi database, menjalankan migrasi, dan memeriksa kesehatan endpoint:
-```bash
-npm run setup
-```
-
-### 3. Menjalankan Server Lokal
-```bash
-npm run dev
-```
-Buka browser dan akses: `http://localhost:3000`
-
-### 4. Menjalankan Pengujian Mandiri (Self-Testing)
-Jalankan pengujian non-destruktif untuk memverifikasi keamanan dan fungsionalitas sistem (menghasilkan tabel screenshot-ready):
-```bash
-npm run selftest
-```
+## Arsitektur dan Tumpukan Teknologi
+Aplikasi dibangun menggunakan tumpukan teknologi modern yang dirancang untuk keandalan dan skalabilitas tinggi:
+* **Runtime**: Node.js versi 22 LTS (ES Modules)
+* **Web Framework**: Express.js 4.21
+* **Template Engine**: EJS (Embedded JavaScript) dengan contextual HTML escaping
+* **Basis Data**: TiDB Cloud Distributed MySQL (Environment Produksi dengan TLS Encrypted Connection) dan MariaDB/MySQL (Environment Pengembangan Lokal)
+* **Penyimpanan Sesi**: Database-backed session store (`express-mysql-session`) dengan konfigurasi cookie `HttpOnly`, `SameSite=Lax`, dan `Secure`
+* **Infrastruktur Hosting**: Vercel Serverless Function (Region: `sin1` Singapore)
+* **Penyimpanan Berkas**: Adapter penyimpanan ganda (Vercel Blob Storage pada mode produksi dan disk lokal pada mode pengembangan) dengan validasi tipe berkas biner dan batas ukuran berkas 4 MB
 
 ---
 
-## 👥 FITUR UTAMA SISTEM
+## Fitur Utama Sistem
 
-### 1. 👨‍🎓 Siswa (Peminjam)
-* **Registrasi Publik:** Mendaftar akun mandiri dengan server-enforced role `siswa` (mencegah eskalasi hak akses).
-* **Dashboard Personal:** Menampilkan ringkasan alat yang sedang dipinjam secara aktif, riwayat barang yang sudah dikembalikan, dan tombol aksi cepat.
-* **Pengajuan Pinjam:** Memilih alat bengkel dari katalog yang tersedia (stok > 0).
-* **Ajukan Pengembalian Bersyarat:** Wajib mengunggah foto bukti fisik alat bengkel dan catatan kondisi fisik sebelum pengembalian dapat diproses.
-* **Profil Saya:** Memperbarui nama dan foto profil dengan verifikasi kata sandi lama (anti-IDOR).
+### 1. Modul Siswa (Peminjam)
+* **Registrasi Publik Mandiri**: Pendaftaran akun siswa dengan penegakan peran `role=siswa` di sisi server untuk mencegah eskalasi hak akses (*privilege escalation*).
+* **Katalog Alat**: Eksplorasi daftar perkakas bengkel yang tersedia secara *real-time*.
+* **Pengajuan Pinjaman**: Pengajuan peminjaman alat praktikum secara langsung.
+* **Pengembalian Bersyarat**: Alur pengembalian alat yang mewajibkan siswa mengunggah bukti foto fisik kondisi alat dan catatan pengembalian.
+* **Manajemen Profil Mandiri**: Pembaruan data pribadi siswa dengan proteksi kepemilikan objek (*anti-IDOR*).
 
-### 2. 👨‍🏫 Guru (Reviewer / Validator)
-* **Dashboard Rekapitulasi:** Melihat statistik global alat, peminjaman aktif, badge counter notifikasi pending, dan tabel 5 aktivitas terbaru.
-* **Review Pengembalian:** Memeriksa foto kondisi fisik alat yang dikembalikan siswa dalam modal gambar.
-* **Tindakan Persetujuan (ACC):** Mengonfirmasi alat telah kembali dengan baik; stok barang otomatis bertambah (+1).
-* **Tindakan Penolakan:** Menolak pengembalian disertai alasan spesifik (misal: "Alat kotor, harap dibersihkan dulu"); status peminjaman dikembalikan ke siswa untuk diperbaiki.
-* **Laporan Transaksi:** Melihat dan mencetak laporan seluruh riwayat peminjaman.
+### 2. Modul Guru (Verifikator Praktikum)
+* **Dashboard Monitoring**: Pemantauan status sirkulasi perkakas dan transaksi peminjaman yang sedang berjalan.
+* **Verifikasi Pengembalian**: Pemeriksaan foto bukti fisik kondisi alat sebelum memberikan persetujuan.
+* **Persetujuan dan Penolakan**: Pemberian konfirmasi penerimaan alat (stok bertambah otomatis) atau penolakan dengan catatan perbaikan untuk siswa.
+* **Laporan Terpadu**: Akses rekapitulasi data peminjaman dengan filter status dan rentang tanggal.
 
-### 3. 👑 Administrator (Pengelola Sistem)
-* **Manajemen Pengguna (CRUD):** Mengelola akun seluruh aktor (Admin, Guru, Siswa).
-* **Manajemen Alat Bengkel (CRUD):** Menambah, mengedit data, dan menghapus alat bengkel dengan upload gambar aman.
-* **Audit Trail:** Memantau riwayat aktivitas penting pengguna melalui tabel `audit_logs`.
-
----
-
-## 🤖 PERNYATAAN PENGGUNAAN AI (AI USAGE DISCLOSURE)
-
-Sebagai wujud integritas dan transparansi akademik, pengembangan versi Node.js ini dilakukan secara *pair programming* bersama asisten AI (Google Antigravity).
-
-### Kontribusi AI dalam Projek Ini:
-1. **Analisis Kerentanan Kode Warisan:** Mengidentifikasi dan membuktikan secara empiris kerentanan keamanan pada kode PHP lama (SQL Injection, XSS, IDOR, dan plaintext passwords) yang didokumentasikan di `docs/self-testing-before.md`.
-2. **Refactor Arsitektur:** Membangun fondasi Express.js berbasis ES Modules, koneksi pool MySQL dengan SSL TLS untuk TiDB Cloud, serta migrasi sesi ke database (`express-mysql-session`).
-3. **Penerapan Standar Keamanan OWASP:** Menulis middleware anti-CSRF, database-backed rate limiter, Zod validation schema, sanitasi EJS escaping, Helmet CSP, dan penghapusan total plaintext passwords dengan bcrypt.
-4. **Pembuatan Otomasi Pengujian:** Menulis skrip `setup.js`, `selftest.js`, dan suite uji otomatis yang menjamin integritas sistem secara berkelanjutan.
+### 3. Modul Administrator (Pengelola Sistem)
+* **Manajemen Inventaris Alat**: Pengelolaan data perkakas bengkel (CRUD) dengan mekanisme *soft-delete* guna menjaga integritas riwayat transaksi.
+* **Manajemen Pengguna**: Pengelolaan akun seluruh pengguna sistem (Admin, Guru, Siswa).
+* **Audit Trail**: Pemantauan jejak digital aktivitas sistem melalui tabel `audit_logs` untuk keperluan forensik keamanan.
 
 ---
 
-### Bagian Refleksi Mandiri Mahasiswa (Silakan Diisi oleh Pemilik Projek):
+## Implementasi Pengamanan Aplikasi Web (Security Hardening)
 
-> *Catatan untuk Yeyen Ai Nurhidayati: Silakan isi bagian di bawah ini sesuai pemahaman dan pengalaman pribadi Anda sebelum mengumpulkan laporan atau mempresentasikannya di depan dosen.*
-
-* **Refleksi Pembelajaran Pribadi Selama Pengerjaan Projek:**  
-  `[Isi sendiri oleh mahasiswa: Ceritakan apa yang Anda pelajari mengenai perbedaan arsitektur PHP Native dengan Node.js Express, pentingnya prepared statement, dan bagaimana hashing bcrypt melindungi data pengguna...]`
-
-* **Bagian Arsitektur atau Keamanan yang Paling Menantang untuk Dipahami:**  
-  `[Isi sendiri oleh mahasiswa: Ceritakan bagian mana yang paling menantang bagi Anda, misalnya memahami siklus hidup token CSRF, mekanisme session fixation, atau bagaimana rate limiter serverless bekerja menggunakan database...]`
-
-* **Rencana Pengembangan Lebih Lanjut di Masa Depan:**  
-  `[Isi sendiri oleh mahasiswa: Sebutkan fitur yang ingin Anda kembangkan di masa depan, misalnya integrasi barcode scanner untuk peminjaman alat bengkel secara instan atau notifikasi WhatsApp/Telegram kepada guru...]`
+1. **Hashing Password Satu Arah (Bcrypt)**
+   Seluruh kredensial pengguna dienkripsi menggunakan algoritma hashing Bcrypt (salt rounds = 10). Jalur verifikasi plaintext telah dihapus menyeluruh dari kode sumber.
+2. **Mitigasi SQL Injection**
+   Semua kueri ke basis data menggunakan *Prepared Statements* (`pool.execute`) dengan pengikatan parameter (*parameter binding*). Validasi skema input juga diperkuat menggunakan pustaka Zod.
+3. **Mitigasi Cross-Site Scripting (XSS)**
+   Penyajian data dinamis pada antarmuka EJS menggunakan mekanisme *contextual escaping* (`<%= %>`), sehingga seluruh tag berbahaya dinetralkan menjadi entitas teks aman.
+4. **Proteksi Cross-Site Request Forgery (CSRF)**
+   Setiap formulir mutasi data (POST, PUT, DELETE) dilindungi token CSRF berbasis sesi yang dihasilkan melalui algoritma kriptografi acak (32 byte). Akses mutasi data melalui metode GET telah dinonaktifkan secara ketat (HTTP 405).
+5. **Kontrol Akses Berbasis Peran (RBAC) & Anti-IDOR**
+   Setiap rute dilindungi middleware autentikasi dan otorisasi berjenjang. Pengecekan kepemilikan data diterapkan secara eksplisit untuk mencegah manipulasi data antar-pengguna.
+6. **Rate Limiting Berbasis Basis Data**
+   Sistem pencatat frekuensi permintaan login disimpan di basis data `rate_limits`, memungkinkan perlindungan *brute-force* tetap aktif secara terdistribusi pada lingkungan serverless. Akun dikunci otomatis selama 15 menit setelah 20 kali kegagalan berturut-turut (HTTP 429).
+7. **Keamanan Penyimpanan Berkas Foto**
+   Bukti foto disimpan secara privat dengan penamaan acak 128-bit (`crypto.randomBytes(16)`). Pengunduhan foto diatur melalui rute proxy terautentikasi dengan verifikasi hak akses.
+8. **Mitigasi CSV Formula Injection & Pembuatan PDF Server-Side**
+   Fitur ekspor CSV menyematkan UTF-8 BOM dan melakukan sanitasi tanda petik tunggal pada karakter formula (`=`, `+`, `-`, `@`). Modul PDF menghasilkan dokumen laporan langsung di sisi server menggunakan *pdfkit*.
 
 ---
 
-*Hak Cipta © 2026 Yeyen Ai Nurhidayati (20240810020). Dibuat untuk pemenuhan tugas Pemrograman Web & Cyber Security.*
+## Panduan Instalasi Lokal
+
+### Prasyarat
+* Node.js (minimal versi 22 LTS)
+* MySQL / MariaDB (XAMPP atau server basis data lokal)
+* Git
+
+### Langkah Menjalankan Aplikasi
+1. Kloning repositori:
+   ```bash
+   git clone https://github.com/YeyenAiNurhidayati/Sistem-Peminjaman-Alat-praktik-.git
+   cd Sistem-Peminjaman-Alat-praktik-
+   ```
+2. Pasang paket dependensi:
+   ```bash
+   npm install
+   ```
+3. Konfigurasi variabel lingkungan:
+   Salin `.env.example` menjadi `.env`, lalu sesuaikan kredensial basis data lokal Anda:
+   ```env
+   PORT=3000
+   NODE_ENV=development
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_USER=root
+   DB_PASSWORD=
+   DB_NAME=peminjaman_alat
+   DB_SSL=false
+   SESSION_SECRET=kunci_rahasia_sesi_lokal_2026
+   ```
+4. Inisialisasi basis data dan seed awal:
+   ```bash
+   npm run setup
+   ```
+5. Jalankan server pengembangan:
+   ```bash
+   npm run dev
+   ```
+   Aplikasi dapat diakses melalui peramban di `http://localhost:3000`.
+
+---
+
+## Pengujian Mandiri Keamanan (Self-Testing)
+Proyek ini dilengkapi skrip pengujian keamanan otomatis untuk memverifikasi keandalan seluruh lapisan proteksi:
+* Menjalankan suite pengujian mandiri utama:
+  ```bash
+  npm run selftest
+  ```
+* Menjalankan pengujian konkurensi stok (race condition prevention):
+  ```bash
+  npm run test:concurrency
+  ```
+* Menjalankan pengujian modul laporan (RBAC, PDF, CSV sanitization):
+  ```bash
+  npm run test:module5
+  ```
+
+---
+
+## Transparansi Penggunaan Perangkat Bantu AI
+Pengembangan proyek ini melibatkan bantuan Antigravity AI Coding Assistant sebagai mitra pemrograman (*pair programming*). Peran AI mencakup identifikasi kerentanan kode legacy, penyusunan rancangan arsitektur serverless, dan penulisan skrip pengujian otomatis. Seluruh kode, konfigurasi cloud, dan keputusan logika sistem telah diuji, diverifikasi, dan divalidasi secara mandiri oleh mahasiswa pengembang.
