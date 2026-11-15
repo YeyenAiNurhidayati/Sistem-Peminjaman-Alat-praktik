@@ -36,6 +36,18 @@ async function generateAcademicPdfReport() {
   const imgLaporan = imgToBase64('docs/screenshots-node/live_08_laporan.png') || imgToBase64('docs/screenshots-node/08_laporan_guru_desktop.png');
   const imgBuktiFoto = imgToBase64('docs/screenshots-node/07a_modal_bukti_foto_desktop.png');
 
+  // Self-testing screenshots
+  const imgSelf01 = imgToBase64('docs/screenshots-selftest/01_sqli_login_rejected.png');
+  const imgSelf02 = imgToBase64('docs/screenshots-selftest/02_xss_sanitized_dashboard.png');
+  const imgSelf03 = imgToBase64('docs/screenshots-selftest/03_idor_denied_403.png');
+  const imgSelf04 = imgToBase64('docs/screenshots-selftest/04_rbac_admin_forbidden_403.png');
+  const imgSelf05 = imgToBase64('docs/screenshots-selftest/05_weak_password_rejected.png');
+  const imgSelf06 = imgToBase64('docs/screenshots-selftest/06_rate_limit_429_lockout.png');
+  const imgSelf07 = imgToBase64('docs/screenshots-selftest/07_session_cookie_logout_redirect.png');
+  const imgSelf08 = imgToBase64('docs/screenshots-selftest/08_csrf_missing_token_403.png');
+  const imgSelf09 = imgToBase64('docs/screenshots-selftest/09_https_ssl_headers_audit.png');
+  const imgSelf10 = imgToBase64('docs/screenshots-selftest/10_secret_dependency_audit.png');
+
   const htmlContent = `
 <!DOCTYPE html>
 <html lang="id">
@@ -699,6 +711,71 @@ X-Content-Type-Options    : nosniff (Anti-MIME Sniffing)
 X-Frame-Options           : SAMEORIGIN (Anti-Clickjacking)
 Set-Cookie                : sipab_session=...; Path=/; HttpOnly; Secure; SameSite=Lax
   </pre>
+
+  <div class="page-break"></div>
+
+  <h2 class="sub-title">5.3. Bukti Tangkapan Layar Pengujian Mandiri Keamanan (Self-Testing 10 Skenario)</h2>
+  <p>
+    Sesuai ketentuan silabus poin (f), berikut adalah bukti tangkapan layar empiris pelaksanaan 10 skenario pengujian mandiri keamanan pada sistem aktif:
+  </p>
+
+  <div class="figure-wrapper">
+    ${imgSelf01 ? `<img src="${imgSelf01}" alt="Uji SQL Injection">` : ''}
+    <div class="figure-caption">Gambar 5.7: Skenario 1 - Penolakan Login Bermuatan SQL Injection (' OR '1'='1' --)</div>
+  </div>
+
+  <div class="figure-wrapper">
+    ${imgSelf02 ? `<img src="${imgSelf02}" alt="Uji Stored XSS">` : ''}
+    <div class="figure-caption">Gambar 5.8: Skenario 2 - Sanitasi Output Stored XSS pada Dashboard (Zero Script Execution)</div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <div class="figure-wrapper">
+    ${imgSelf03 ? `<img src="${imgSelf03}" alt="Uji IDOR">` : ''}
+    <div class="figure-caption">Gambar 5.9: Skenario 3 - Pencegahan Akses Ilegal IDOR Pengembalian Alat (HTTP 403 Forbidden)</div>
+  </div>
+
+  <div class="figure-wrapper">
+    ${imgSelf04 ? `<img src="${imgSelf04}" alt="Uji Akses Admin RBAC">` : ''}
+    <div class="figure-caption">Gambar 5.10: Skenario 4 - Pemblokiran Akses Siswa ke Modul Admin /users (HTTP 403 Forbidden)</div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <div class="figure-wrapper">
+    ${imgSelf05 ? `<img src="${imgSelf05}" alt="Uji Password Lemah">` : ''}
+    <div class="figure-caption">Gambar 5.11: Skenario 5 - Penolakan Pendaftaran dengan Password Lemah (Password Policy)</div>
+  </div>
+
+  <div class="figure-wrapper">
+    ${imgSelf06 ? `<img src="${imgSelf06}" alt="Uji Rate Limiting">` : ''}
+    <div class="figure-caption">Gambar 5.12: Skenario 6 - Penguncian Sesi Otomatis Akibat Serangan Brute Force (HTTP 429)</div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <div class="figure-wrapper">
+    ${imgSelf07 ? `<img src="${imgSelf07}" alt="Uji Cookie dan Sesi">` : ''}
+    <div class="figure-caption">Gambar 5.13: Skenario 7 - Verifikasi Atribut Cookie (HttpOnly, Secure, SameSite) & Invalidasi Sesi Logout</div>
+  </div>
+
+  <div class="figure-wrapper">
+    ${imgSelf08 ? `<img src="${imgSelf08}" alt="Uji Mutasi CSRF">` : ''}
+    <div class="figure-caption">Gambar 5.14: Skenario 8 - Penolakan Permintaan Mutasi POST Tanpa Token CSRF (HTTP 403 Forbidden)</div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <div class="figure-wrapper">
+    ${imgSelf09 ? `<img src="${imgSelf09}" alt="Uji HTTPS dan Headers">` : ''}
+    <div class="figure-caption">Gambar 5.15: Skenario 9 - Bukti Inspeksi Protokol HTTPS (TLS 1.3) dan Security Headers Produksi</div>
+  </div>
+
+  <div class="figure-wrapper">
+    ${imgSelf10 ? `<img src="${imgSelf10}" alt="Audit Secret dan Dependency">` : ''}
+    <div class="figure-caption">Gambar 5.16: Skenario 10 - Hasil Audit Mandiri Repositori (Zero Secret Leaks & npm audit)</div>
+  </div>
 
   <div class="page-break"></div>
 
