@@ -9,12 +9,12 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- Passwords are store-hashed with bcrypt (salt rounds = 10)
 DELETE FROM `users`;
 INSERT INTO `users` (`id`, `nama`, `username`, `password`, `role`, `foto_profil`, `nip`, `nisn`, `kelas`) VALUES
-(1, 'Hendrik Administrator', 'admin', '$2a$10$uriJ9HdK56sJcyTPr6ECAuZaOvagulk50bj2eh85VpVSpuVBkpuE6', 'admin', '1768733609_1252.png', '198505112008011001', NULL, NULL),
-(2, 'Pak Guru Mesin', 'guru', '$2a$10$Jj7JBHcDqzCkzJMbu7qgYebpFGYBwyEGIkxmWA6ByUnaQBQE0i4Jm', 'guru', '1768735977_1482.jpeg', '197203151998021002', NULL, NULL),
-(3, 'Siswa Teladan', 'siswa', '$2a$10$HhNHVTfCz4NYiS5CoIqzae6fInXWfxchhBQpph5AHrCxqLIbkIrk2', 'siswa', '1768738457_3523.jpeg', NULL, '202401001', '12A'),
-(4, 'Budi Santoso', 'siswa2', '$2a$10$HhNHVTfCz4NYiS5CoIqzae6fInXWfxchhBQpph5AHrCxqLIbkIrk2', 'siswa', NULL, NULL, '202401002', '12A'),
-(5, 'Ani Wijaya', 'siswa3', '$2a$10$HhNHVTfCz4NYiS5CoIqzae6fInXWfxchhBQpph5AHrCxqLIbkIrk2', 'siswa', NULL, NULL, '202401003', '12B'),
-(6, 'Ibu Koordinator Praktikum', 'guru2', '$2a$10$Jj7JBHcDqzCkzJMbu7qgYebpFGYBwyEGIkxmWA6ByUnaQBQE0i4Jm', 'guru', NULL, '197805201999032001', NULL, NULL);
+(1, 'Hendrik Administrator', 'admin', '$2a$10$.iJlemInrl7e03.ZAsDpNOpWF6Z0TBRoozeGtd5SEzf9VSW5h1t46', 'admin', '1768733609_1252.png', '198505112008011001', NULL, NULL),
+(2, 'Pak Guru Mesin', 'guru', '$2a$10$.iJlemInrl7e03.ZAsDpNOpWF6Z0TBRoozeGtd5SEzf9VSW5h1t46', 'guru', '1768735977_1482.jpeg', '197203151998021002', NULL, NULL),
+(3, 'Siswa Teladan', 'siswa', '$2a$10$.iJlemInrl7e03.ZAsDpNOpWF6Z0TBRoozeGtd5SEzf9VSW5h1t46', 'siswa', '1768738457_3523.jpeg', NULL, '202401001', '12A'),
+(4, 'Budi Santoso', 'siswa2', '$2a$10$.iJlemInrl7e03.ZAsDpNOpWF6Z0TBRoozeGtd5SEzf9VSW5h1t46', 'siswa', NULL, NULL, '202401002', '12A'),
+(5, 'Ani Wijaya', 'siswa3', '$2a$10$.iJlemInrl7e03.ZAsDpNOpWF6Z0TBRoozeGtd5SEzf9VSW5h1t46', 'siswa', NULL, NULL, '202401003', '12B'),
+(6, 'Ibu Koordinator Praktikum', 'guru2', '$2a$10$.iJlemInrl7e03.ZAsDpNOpWF6Z0TBRoozeGtd5SEzf9VSW5h1t46', 'guru', NULL, '197805201999032001', NULL, NULL);
 
 -- 2. Barang Table Seed
 DELETE FROM `barang`;
