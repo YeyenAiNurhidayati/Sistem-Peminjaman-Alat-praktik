@@ -1,0 +1,109 @@
+<%- include('../layout/header') %>
+<%- include('../layout/sidebar') %>
+
+<div id="main">
+    <div class="page-heading">
+        <h3>Tambah User Baru</h3>
+    </div>
+
+    <section class="section">
+        <div class="card">
+            <div class="card-body">
+                <form action="/users/tambah" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Nama Lengkap</label>
+                                <input type="text" class="form-control" name="nama" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Username</label>
+                                <input type="text" class="form-control" name="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control" name="password" required>
+                                <small class="text-muted">Minimal 10 karakter, kombinasi huruf besar, huruf kecil, dan angka.</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Role</label>
+                                <select class="form-select" name="role" id="roleSelect" required>
+                                    <option value="siswa" selected>Siswa</option>
+                                    <option value="guru">Guru</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3" id="inputNIP" style="display: none;">
+                                <label class="form-label">NIP (Nomor Induk Pegawai)</label>
+                                <input type="number" class="form-control" name="nip" placeholder="Contoh: 198501...">
+                            </div>
+
+                            <div class="mb-3" id="inputNISN">
+                                <label class="form-label">NIS (Nomor Induk Siswa)</label>
+                                <input type="number" class="form-control" name="nisn" placeholder="Contoh: 001234...">
+                            </div>
+
+                            <div class="mb-3" id="inputKelas">
+                                <label class="form-label">Kelas</label>
+                                <select class="form-select" name="kelas">
+                                    <option value="">-- Pilih Kelas --</option>
+                                    <option value="10A">10A</option>
+                                    <option value="10B">10B</option>
+                                    <option value="10C">10C</option>
+                                    <option value="11A">11A</option>
+                                    <option value="11B">11B</option>
+                                    <option value="11C">11C</option>
+                                    <option value="12A">12A</option>
+                                    <option value="12B">12B</option>
+                                    <option value="12C">12C</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Foto Profil (Opsional)</label>
+                                <input type="file" class="form-control" name="foto_profil" accept="image/*">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <a href="/users" class="btn btn-secondary">Batal</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    const roleSelect = document.getElementById('roleSelect');
+    const inputNIP = document.getElementById('inputNIP');
+    const inputNISN = document.getElementById('inputNISN');
+    const inputKelas = document.getElementById('inputKelas');
+
+    function toggleInputs() {
+        const role = roleSelect.value;
+        if (role === 'guru') {
+            inputNIP.style.display = 'block';
+            inputNISN.style.display = 'none';
+            inputKelas.style.display = 'none';
+        } else if (role === 'siswa') {
+            inputNIP.style.display = 'none';
+            inputNISN.style.display = 'block';
+            inputKelas.style.display = 'block';
+        } else {
+            inputNIP.style.display = 'none';
+            inputNISN.style.display = 'none';
+            inputKelas.style.display = 'none';
+        }
+    }
+
+    roleSelect.addEventListener('change', toggleInputs);
+    toggleInputs();
+</script>
+
+<%- include('../layout/footer') %>

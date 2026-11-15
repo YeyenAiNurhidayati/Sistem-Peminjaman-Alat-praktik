@@ -1,0 +1,120 @@
+<%- include('../layout/header') %>
+<%- include('../layout/sidebar') %>
+
+<div id="main">
+    <header class="mb-3">
+        <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+        </a>
+    </header>
+
+    <div class="page-heading">
+        <h3>Edit Alat</h3>
+        <p class="text-muted">Perbarui informasi dan ketersediaan alat bengkel</p>
+    </div>
+
+    <div class="page-content">
+        <% if (error) { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i><%= error %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+
+        <% if (success) { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i><%= success %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <form action="/alat/edit/<%= data.id %>" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                    <div class="form-group mb-3">
+                        <label class="form-label fw-bold">Nama Alat <span class="text-danger">*</span></label>
+                        <input type="text" name="nama_barang" class="form-control" value="<%= data.nama_barang %>" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label fw-bold">Kategori <span class="text-danger">*</span></label>
+                        <select name="kategori" class="form-select" required>
+                            <option value="Hand Tools" <%= data.kategori === 'Hand Tools' ? 'selected' : '' %>>Hand Tools</option>
+                            <option value="Power Tools" <%= data.kategori === 'Power Tools' ? 'selected' : '' %>>Power Tools</option>
+                            <option value="SST" <%= data.kategori === 'SST' ? 'selected' : '' %>>SST</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label fw-bold">Stok <span class="text-danger">*</span></label>
+                        <input type="number" name="stok" class="form-control" value="<%= data.stok %>" min="0" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label fw-bold">Kondisi <span class="text-danger">*</span></label>
+                        <select name="kondisi" class="form-select" required>
+                            <option value="Baik" <%= data.kondisi === 'Baik' ? 'selected' : '' %>>Baik</option>
+                            <option value="Rusak" <%= data.kondisi === 'Rusak' ? 'selected' : '' %>>Rusak</option>
+                            <option value="Perlu Perbaikan" <%= data.kondisi === 'Perlu Perbaikan' ? 'selected' : '' %>>Perlu Perbaikan</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="form-label fw-bold">Foto Barang (Biarkan kosong jika tidak diubah)</label>
+                        <input type="file" name="foto" id="editFotoInput" class="form-control" accept="image/jpeg,image/png,image/webp">
+                        <small class="text-muted d-block mt-1">Format: JPG, PNG, WebP (Maks. 4MB)</small>
+                        
+                        <div class="mt-2">
+                            <% if (data.foto) { 
+                                 const imgSrc = (data.foto.startsWith('http://') || data.foto.startsWith('https://') || data.foto.startsWith('/')) 
+                                   ? data.foto 
+                                   : '/assets/images/barang/' + data.foto;
+                            %>
+                                <p class="text-muted small mb-1">Foto Saat Ini:</p>
+                                <img id="editImagePreview" src="<%= imgSrc %>" alt="<%= data.nama_barang %>" style="max-width: 180px; max-height: 180px; object-fit: contain; border-radius: 5px; border: 1px solid #dee2e6;">
+                            <% } else { %>
+                                <div id="editImagePreviewContainer" style="display: none;">
+                                    <img id="editImagePreview" src="" alt="Preview" style="max-width: 180px; max-height: 180px; object-fit: contain; border-radius: 5px; border: 1px solid #dee2e6;">
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle me-1"></i> Update
+                        </button>
+                        <a href="/alat" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-1"></i> Kembali
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../layout/footer') %>
+</div>
+
+<script>
+const fotoInput = document.getElementById('editFotoInput');
+if (fotoInput) {
+    fotoInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        const preview = document.getElementById('editImagePreview');
+        const container = document.getElementById('editImagePreviewContainer');
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                if (preview) {
+                    preview.src = evt.target.result;
+                    if (container) container.style.display = 'block';
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+</script>

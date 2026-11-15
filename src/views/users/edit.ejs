@@ -1,0 +1,124 @@
+<%- include('../layout/header') %>
+<%- include('../layout/sidebar') %>
+
+<div id="main">
+    <div class="page-heading">
+        <h3>Edit User</h3>
+    </div>
+
+    <section class="section">
+        <div class="card">
+            <div class="card-body">
+                <form action="/users/edit/<%= data.id %>" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <input type="hidden" name="id" value="<%= data.id %>">
+                    <input type="hidden" name="foto_lama" value="<%= data.foto_profil || '' %>">
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Nama Lengkap</label>
+                                <input type="text" class="form-control" name="nama" value="<%= data.nama %>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Username</label>
+                                <input type="text" class="form-control" value="<%= data.username %>" disabled>
+                                <small class="text-muted">Username tidak dapat diubah.</small>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control" name="password" placeholder="Kosongkan jika tidak ingin mengubah password">
+                                <small class="text-muted">Jika diubah: minimal 10 karakter, huruf besar, kecil, dan angka.</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Role</label>
+                                <select class="form-select" name="role" id="roleSelect" required>
+                                    <option value="siswa" <%= data.role === 'siswa' ? 'selected' : '' %>>Siswa</option>
+                                    <option value="guru" <%= data.role === 'guru' ? 'selected' : '' %>>Guru</option>
+                                    <option value="admin" <%= data.role === 'admin' ? 'selected' : '' %>>Admin</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3" id="inputNIP" style="display: none;">
+                                <label class="form-label">NIP (Nomor Induk Pegawai)</label>
+                                <input type="number" class="form-control" name="nip" value="<%= data.nip || '' %>" placeholder="Contoh: 198501...">
+                            </div>
+
+                            <div class="mb-3" id="inputNISN" style="display: none;">
+                                <label class="form-label">NIS (Nomor Induk Siswa)</label>
+                                <input type="number" class="form-control" name="nisn" value="<%= data.nisn || '' %>" placeholder="Contoh: 001234...">
+                            </div>
+
+                            <div class="mb-3" id="inputKelas" style="display: none;">
+                                <label class="form-label">Kelas</label>
+                                <select class="form-select" name="kelas">
+                                    <option value="">-- Pilih Kelas --</option>
+                                    <option value="10A" <%= data.kelas === '10A' ? 'selected' : '' %>>10A</option>
+                                    <option value="10B" <%= data.kelas === '10B' ? 'selected' : '' %>>10B</option>
+                                    <option value="10C" <%= data.kelas === '10C' ? 'selected' : '' %>>10C</option>
+                                    <option value="11A" <%= data.kelas === '11A' ? 'selected' : '' %>>11A</option>
+                                    <option value="11B" <%= data.kelas === '11B' ? 'selected' : '' %>>11B</option>
+                                    <option value="11C" <%= data.kelas === '11C' ? 'selected' : '' %>>11C</option>
+                                    <option value="12A" <%= data.kelas === '12A' ? 'selected' : '' %>>12A</option>
+                                    <option value="12B" <%= data.kelas === '12B' ? 'selected' : '' %>>12B</option>
+                                    <option value="12C" <%= data.kelas === '12C' ? 'selected' : '' %>>12C</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Foto Profil</label>
+                                <div class="mb-2">
+                                    <% 
+                                        let src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(data.nama) + '&background=random';
+                                        if (data.foto_profil && (data.foto_profil.startsWith('http://') || data.foto_profil.startsWith('https://'))) {
+                                            src = data.foto_profil;
+                                        } else if (data.foto_profil) {
+                                            src = '/assets/uploads/profil/' + data.foto_profil;
+                                        }
+                                    %>
+                                    <img src="<%= src %>" width="80" class="img-thumbnail rounded-circle" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=<%= encodeURIComponent(data.nama) %>&background=random';">
+                                </div>
+                                <input type="file" class="form-control" name="foto_profil" accept="image/*">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        <a href="/users" class="btn btn-secondary">Batal</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    const roleSelect = document.getElementById('roleSelect');
+    const inputNIP = document.getElementById('inputNIP');
+    const inputNISN = document.getElementById('inputNISN');
+    const inputKelas = document.getElementById('inputKelas');
+
+    function toggleInputs() {
+        const role = roleSelect.value;
+        if (role === 'guru') {
+            inputNIP.style.display = 'block';
+            inputNISN.style.display = 'none';
+            inputKelas.style.display = 'none';
+        } else if (role === 'siswa') {
+            inputNIP.style.display = 'none';
+            inputNISN.style.display = 'block';
+            inputKelas.style.display = 'block';
+        } else {
+            inputNIP.style.display = 'none';
+            inputNISN.style.display = 'none';
+            inputKelas.style.display = 'none';
+        }
+    }
+
+    roleSelect.addEventListener('change', toggleInputs);
+    toggleInputs();
+</script>
+
+<%- include('../layout/footer') %>

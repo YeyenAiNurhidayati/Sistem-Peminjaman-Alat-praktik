@@ -1,0 +1,394 @@
+<%- include('../layout/header') %>
+<%- include('../layout/sidebar') %>
+
+<div id="main">
+    <header class="mb-3">
+        <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+        </a>
+    </header>
+
+    <div class="page-heading">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h3>Kelola Alat</h3>
+                <p class="text-muted">Manajemen data inventaris dan kondisi alat bengkel</p>
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary shadow-sm" onclick="openModal()">
+                    <i class="bi bi-plus-circle me-1"></i> Tambah Alat
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content">
+        <% if (error) { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i><%= error %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+
+        <% if (success) { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i><%= success %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+
+        <!-- Filter Kategori Tabs -->
+        <div class="card mb-4 shadow-sm border-0">
+            <div class="card-body py-3">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        <span class="text-muted fw-bold me-2"><i class="bi bi-funnel me-1"></i>Filter Kategori:</span>
+                        <a href="/alat" class="btn btn-sm <%= selectedKategori === 'Semua' ? 'btn-primary' : 'btn-outline-primary' %> rounded-pill">
+                            Semua <span class="badge bg-light text-dark ms-1"><%= categoryCounts.total_all || 0 %></span>
+                        </a>
+                        <a href="/alat?kategori=Hand+Tools" class="btn btn-sm <%= selectedKategori === 'Hand Tools' ? 'btn-primary' : 'btn-outline-primary' %> rounded-pill">
+                            Hand Tools <span class="badge bg-light text-dark ms-1"><%= categoryCounts.total_hand || 0 %></span>
+                        </a>
+                        <a href="/alat?kategori=Power+Tools" class="btn btn-sm <%= selectedKategori === 'Power Tools' ? 'btn-primary' : 'btn-outline-primary' %> rounded-pill">
+                            Power Tools <span class="badge bg-light text-dark ms-1"><%= categoryCounts.total_power || 0 %></span>
+                        </a>
+                        <a href="/alat?kategori=SST" class="btn btn-sm <%= selectedKategori === 'SST' ? 'btn-primary' : 'btn-outline-primary' %> rounded-pill">
+                            SST <span class="badge bg-light text-dark ms-1"><%= categoryCounts.total_sst || 0 %></span>
+                        </a>
+                    </div>
+                    <% if (selectedKategori !== 'Semua' || searchQuery) { %>
+                        <div>
+                            <a href="/alat" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-x-circle me-1"></i>Reset Filter
+                            </a>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-tools text-primary me-2"></i>Daftar Alat Bengkel
+                        <% if (selectedKategori !== 'Semua') { %>
+                            <span class="badge bg-info ms-2"><%= selectedKategori %></span>
+                        <% } %>
+                    </h5>
+                    <span class="text-muted small">Total: <%= alat.length %> alat ditemukan</span>
+                </div>
+
+                <div class="card-body pt-3">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover align-middle" id="table1">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px;">No</th>
+                                    <th style="width: 70px;">Gambar</th>
+                                    <th>Nama Alat</th>
+                                    <th>Kategori</th>
+                                    <th style="width: 80px;">Stok</th>
+                                    <th style="width: 140px;">Kondisi</th>
+                                    <th class="text-center" style="width: 110px;">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <% alat.forEach((row, index) => { %>
+                                <tr id="row-<%= row.id %>">
+                                    <td><%= index + 1 %></td>
+                                    <td>
+                                        <% if (row.foto) { 
+                                             const imgSrc = (row.foto.startsWith('http://') || row.foto.startsWith('https://') || row.foto.startsWith('/')) 
+                                               ? row.foto 
+                                               : '/assets/images/barang/' + row.foto;
+                                        %>
+                                            <img src="<%= imgSrc %>" alt="<%= row.nama_barang %>" style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px; border: 1px solid #e9ecef;">
+                                        <% } else { %>
+                                            <div style="width: 50px; height: 50px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+                                                <i class="bi bi-image text-muted fs-5"></i>
+                                            </div>
+                                        <% } %>
+                                    </td>
+                                    <td class="fw-semibold text-dark"><%= row.nama_barang %></td>
+                                    <td>
+                                        <span class="badge bg-info text-dark">
+                                            <%= row.kategori || 'Tidak ada' %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-<%= row.stok > 0 ? 'success' : 'danger' %>">
+                                            <%= row.stok %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-<%= row.kondisi === 'Baik' ? 'success' : (row.kondisi === 'Rusak' ? 'danger' : 'warning') %>">
+                                            <%= row.kondisi %>
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-warning btn-sm" title="Edit Alat" onclick="editData(<%= row.id %>)">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-sm" title="Hapus Alat" onclick="deleteData(<%= row.id %>, '<%= (row.nama_barang || '').replace(/'/g, "\\'") %>')">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal Form Tambah / Edit Alat -->
+    <div class="modal fade" id="modalAlat" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Tambah Alat</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="formAlat" enctype="multipart/form-data">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <div class="modal-body">
+                        <input type="hidden" name="id" id="inputId">
+                        <input type="hidden" name="action" id="inputAction" value="create">
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Nama Alat <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="nama_barang" id="inputNama" required placeholder="Contoh: Kunci Shock Set 24 pcs">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Kategori <span class="text-danger">*</span></label>
+                            <select class="form-select" name="kategori" id="inputKategori" required>
+                                <option value="">-- Pilih Kategori --</option>
+                                <option value="Hand Tools">Hand Tools</option>
+                                <option value="Power Tools">Power Tools</option>
+                                <option value="SST">SST</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Stok <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" name="stok" id="inputStok" required min="0" placeholder="Jumlah ketersediaan stok">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Kondisi <span class="text-danger">*</span></label>
+                            <select class="form-select" name="kondisi" id="inputKondisi" required>
+                                <option value="">-- Pilih Kondisi --</option>
+                                <option value="Baik">Baik</option>
+                                <option value="Rusak">Rusak</option>
+                                <option value="Perlu Perbaikan">Perlu Perbaikan</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Foto Barang (Opsional)</label>
+                            <input type="file" class="form-control" name="foto" id="inputFoto" accept="image/jpeg,image/png,image/webp">
+                            <small class="text-muted d-block mt-1">Format didukung: JPG, PNG, WebP (Maks. 4MB)</small>
+                            <div id="previewContainer" class="mt-2 text-center p-2 border rounded bg-light" style="display: none;">
+                                <img id="previewImage" src="" alt="Preview Foto Alat" style="max-width: 100%; max-height: 180px; object-fit: contain; border-radius: 5px;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle me-1"></i> Batal
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="btnSubmit">
+                            <i class="bi bi-check-circle me-1"></i> Simpan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../layout/footer') %>
+</div>
+
+<script>
+let modalAlatInstance = null;
+document.addEventListener('DOMContentLoaded', () => {
+    const modalEl = document.getElementById('modalAlat');
+    if (modalEl) {
+        modalAlatInstance = new bootstrap.Modal(modalEl);
+    }
+});
+
+// Buka Modal Tambah Alat
+function openModal() {
+    document.getElementById('modalTitle').textContent = 'Tambah Alat Baru';
+    document.getElementById('formAlat').reset();
+    document.getElementById('inputId').value = '';
+    document.getElementById('inputAction').value = 'create';
+    document.getElementById('previewContainer').style.display = 'none';
+    document.getElementById('previewImage').src = '';
+    if (modalAlatInstance) modalAlatInstance.show();
+}
+
+// Buka Modal Edit Alat
+function editData(id) {
+    document.getElementById('modalTitle').textContent = 'Edit Data Alat';
+    document.getElementById('inputAction').value = 'update';
+    document.getElementById('inputId').value = id;
+    
+    // Fetch data alat via clean REST API
+    fetch('/api/alat/' + encodeURIComponent(id))
+        .then(response => response.json())
+        .then(result => {
+            if (result.success && result.data) {
+                document.getElementById('inputId').value = result.data.id;
+                document.getElementById('inputNama').value = result.data.nama_barang || '';
+                document.getElementById('inputKategori').value = result.data.kategori || '';
+                document.getElementById('inputStok').value = result.data.stok !== undefined ? result.data.stok : '';
+                document.getElementById('inputKondisi').value = result.data.kondisi || '';
+                
+                // Preview foto yang ada
+                const previewContainer = document.getElementById('previewContainer');
+                const previewImage = document.getElementById('previewImage');
+                if (result.data.foto) {
+                    const imgSrc = (result.data.foto.startsWith('http://') || result.data.foto.startsWith('https://') || result.data.foto.startsWith('/'))
+                        ? result.data.foto
+                        : '/assets/images/barang/' + result.data.foto;
+                    previewImage.src = imgSrc;
+                    previewContainer.style.display = 'block';
+                } else {
+                    previewContainer.style.display = 'none';
+                    previewImage.src = '';
+                }
+                
+                if (modalAlatInstance) modalAlatInstance.show();
+            } else {
+                Swal.fire('Error', result.message || 'Gagal mengambil data alat', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+            Swal.fire('Error', 'Gagal menghubungi server.', 'error');
+        });
+}
+
+// Hapus Data Alat
+function deleteData(id, nama) {
+    Swal.fire({
+        title: 'Hapus Data Alat?',
+        html: `Apakah Anda yakin ingin menghapus <strong>${nama}</strong>?<br><small class="text-muted">Tindakan ini tidak dapat dibatalkan.</small>`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#fc544b',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: '<i class="bi bi-trash"></i> Ya, Hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Clean RESTful DELETE call with CSRF protection
+            fetch('/api/alat/' + encodeURIComponent(id), {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: result.message,
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire('Gagal Menghapus', result.message, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Delete error:', error);
+                Swal.fire('Error', 'Terjadi kesalahan sistem saat menghapus data.', 'error');
+            });
+        }
+    });
+}
+
+// Handle Form Submit (Tambah POST & Edit PUT)
+document.getElementById('formAlat').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const action = document.getElementById('inputAction').value;
+    const id = document.getElementById('inputId').value;
+    const targetUrl = action === 'update' ? '/api/alat/' + encodeURIComponent(id) : '/api/alat';
+    const httpMethod = action === 'update' ? 'PUT' : 'POST';
+
+    const btnSubmit = document.getElementById('btnSubmit');
+    const originalText = btnSubmit.innerHTML;
+    
+    btnSubmit.disabled = true;
+    btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Menyimpan...';
+
+    fetch(targetUrl, {
+        method: httpMethod,
+        body: formData
+    })
+    .then(response => response.json())
+    .then(result => {
+        btnSubmit.disabled = false;
+        btnSubmit.innerHTML = originalText;
+        
+        if (result.success) {
+            if (modalAlatInstance) modalAlatInstance.hide();
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: result.message,
+                timer: 1500,
+                showConfirmButton: false
+            }).then(() => {
+                location.reload();
+            });
+        } else {
+            Swal.fire('Validasi Gagal', result.message, 'error');
+        }
+    })
+    .catch(error => {
+        btnSubmit.disabled = false;
+        btnSubmit.innerHTML = originalText;
+        console.error('Submit error:', error);
+        Swal.fire('Error', 'Terjadi kesalahan saat memproses data.', 'error');
+    });
+});
+
+// Live Preview Upload Foto
+document.getElementById('inputFoto').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    const previewContainer = document.getElementById('previewContainer');
+    const previewImage = document.getElementById('previewImage');
+    
+    if (file) {
+        if (file.size > 4 * 1024 * 1024) {
+            Swal.fire('Ukuran Terlalu Besar', 'Ukuran foto maksimal 4MB.', 'warning');
+            this.value = '';
+            previewContainer.style.display = 'none';
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+            previewImage.src = evt.target.result;
+            previewContainer.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    } else {
+        previewContainer.style.display = 'none';
+        previewImage.src = '';
+    }
+});
+</script>

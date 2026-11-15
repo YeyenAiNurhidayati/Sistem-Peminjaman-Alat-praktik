@@ -1,0 +1,131 @@
+<%- include('../layout/header') %>
+<%- include('../layout/sidebar') %>
+
+<div id="main">
+    <header class="mb-3">
+        <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+        </a>
+    </header>
+
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Data Pengguna (Siswa & Guru)</h3>
+                    <p class="text-subtitle text-muted">Kelola data pengguna aplikasi.</p>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Users</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h4>Daftar Users</h4>
+                <a href="/users/tambah" class="btn btn-primary">Tambah Siswa / User</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="table1">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Foto</th>
+                                <th>Nama Lengkap</th>
+                                <th>NIP/NISN</th>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (users && users.length > 0) { %>
+                                <% users.forEach((row, index) => { %>
+                                    <% 
+                                        let src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(row.nama) + '&background=random&size=100';
+                                        if (row.foto_profil && (row.foto_profil.startsWith('http://') || row.foto_profil.startsWith('https://'))) {
+                                            src = row.foto_profil;
+                                        } else if (row.foto_profil) {
+                                            src = '/assets/uploads/profil/' + row.foto_profil;
+                                        }
+                                    %>
+                                    <tr>
+                                        <td><%= index + 1 %></td>
+                                        <td>
+                                            <img src="<%= src %>" alt="avatar" class="rounded-circle" width="40" height="40" style="object-fit: cover;" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=<%= encodeURIComponent(row.nama) %>&background=random&size=100';">
+                                        </td>
+                                        <td><%= row.nama %></td>
+                                        <td>
+                                            <% if (row.role === 'guru') { %>
+                                                NIP: <%= row.nip || '-' %>
+                                            <% } else if (row.role === 'siswa') { %>
+                                                NISN: <%= row.nisn || '-' %>
+                                            <% } else { %>
+                                                -
+                                            <% } %>
+                                        </td>
+                                        <td><%= row.username %></td>
+                                        <td>
+                                            <% if (row.role === 'admin') { %>
+                                                <span class="badge bg-danger">Admin</span>
+                                            <% } else if (row.role === 'guru') { %>
+                                                <span class="badge bg-info">Guru</span>
+                                            <% } else { %>
+                                                <span class="badge bg-success">Siswa</span>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <a href="/users/edit/<%= row.id %>" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                                            <% if (Number(row.id) !== Number(userId)) { %>
+                                                <button type="button" class="btn btn-sm btn-danger" onclick="hapusUser(<%= row.id %>, '<%= row.nama.replace(/'/g, "\\'") %>')"><i class="bi bi-trash"></i></button>
+                                            <% } %>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+function hapusUser(id, nama) {
+    Swal.fire({
+        title: 'Hapus Pengguna?',
+        html: `Apakah Anda yakin ingin menghapus akun <strong>${nama}</strong>?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: '<i class="bi bi-trash"></i> Ya, Hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/users/hapus/${id}`;
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = '_csrf';
+            csrfInput.value = '<%= csrfToken %>';
+            form.appendChild(csrfInput);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    });
+}
+</script>
+
+<%- include('../layout/footer') %>
