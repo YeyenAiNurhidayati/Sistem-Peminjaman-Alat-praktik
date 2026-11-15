@@ -723,6 +723,11 @@ export async function getRiwayat(req, res) {
  */
 export async function getBuktiFoto(req, res) {
   try {
+    // 0. Autentikasi Wajib: Mencegah akses publik tanpa login
+    if (!req.session || !req.session.login) {
+      return res.status(401).send('Akses Ditolak: Anda harus login terlebih dahulu untuk mengakses bukti foto!');
+    }
+
     const filename = path.basename(req.params.filename);
     const role = req.session.role;
     const sessionUserId = Number(req.session.user_id);

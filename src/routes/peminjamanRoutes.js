@@ -50,7 +50,7 @@ router.get('/review/:id', cekRole(['guru', 'admin']), (req, res) => {
   return res.status(405).send('Metode HTTP GET tidak diizinkan untuk me-review peminjaman. Gunakan POST.');
 });
 
-// 6. Akses Bukti Foto Terlindungi (Anti-IDOR)
-router.get('/bukti/:filename', peminjamanController.getBuktiFoto);
+// 6. Akses Bukti Foto Terlindungi (Anti-IDOR & Autentikasi Wajib)
+router.get('/bukti/:filename', cekLogin, peminjamanController.getBuktiFoto);
 
 export default router;
